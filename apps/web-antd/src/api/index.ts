@@ -13,6 +13,9 @@ export function queryAdmin(table: String, query?: Recordable<any>) {
       ...query,
       ...form,
     };
+    for (const key in body) {
+      if (body[key] === '') delete body[key];
+    }
     if (page) {
       body._page = page.currentPage;
       body._limit = page.pageSize;
