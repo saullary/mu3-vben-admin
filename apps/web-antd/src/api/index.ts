@@ -4,7 +4,7 @@ import type { Recordable } from '@vben/types';
 import { requestClient } from './request';
 
 let adminBaseUrl = 'https://ice.qs3.fun/v1';
-adminBaseUrl = 'http://localhost:6011/v1';
+// adminBaseUrl = 'http://localhost:6011/v1';
 
 export function queryAdmin(table: String, query?: Recordable<any>) {
   return async (params: Recordable<any>, form: Recordable<any>) => {

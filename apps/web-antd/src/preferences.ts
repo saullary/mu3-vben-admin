@@ -9,5 +9,24 @@ export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
     name: import.meta.env.VITE_APP_TITLE,
+    authPageLayout: 'panel-center',
+    enableCheckUpdates: true,
+  },
+  logo: {
+    source: '/img/logo.webp',
+  },
+  copyright: {
+    enable: false,
+  },
+  transition: {
+    name: 'fade',
+  },
+  breadcrumb: {
+    showIcon: false,
+    showHome: false,
+    hideOnlyOne: true,
+  },
+  theme: {
+    mode: 'auto',
   },
 });
