@@ -4,10 +4,11 @@ import type {
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
 
-import { Page, useVbenDrawer } from '@vben/common-ui';
+import { Page } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-// import { MenuBadge } from '@vben-core/menu-ui';
+import kd100 from './comp/kd100.js';
+import modalResult from './modal-result.vue';
 
 import { Button, message } from 'ant-design-vue';
 
@@ -88,8 +89,19 @@ function onDelete(row: any) {
 <template>
   <Page auto-content-height>
     <Grid>
+      <template #company="{ row }">
+        {{ kd100.getKdCompany(row.company) }}
+      </template>
+
       <template #result="{ row }">
-        <div>res</div>
+        <modal-result
+          :title="kd100.getKdCompany(row.company) + ' ' + row.order_no"
+          :result="row.result"
+        />
+      </template>
+
+      <template #status="{ row }">
+        {{ kd100.getKdState(row.status) }}
       </template>
     </Grid>
   </Page>

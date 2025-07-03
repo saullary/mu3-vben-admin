@@ -8,6 +8,7 @@ export function useColumns(
     {
       field: 'company',
       title: '快递公司', //$t('kd.company'),
+      slots: { default: 'company' },
       minWidth: 100,
     },
     {
@@ -29,9 +30,11 @@ export function useColumns(
     },
     {
       field: 'status',
+      slots: { default: 'status' },
       title: '状态',
       // width: 200,
     },
+
     {
       field: 'created_t',
       title: '创建时间',
