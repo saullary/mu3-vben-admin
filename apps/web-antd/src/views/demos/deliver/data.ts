@@ -9,7 +9,7 @@ export function useColumns(
       field: 'company',
       title: '快递公司', //$t('kd.company'),
       slots: { default: 'company' },
-      minWidth: 100,
+      minWidth: 60,
     },
     {
       align: 'center',
