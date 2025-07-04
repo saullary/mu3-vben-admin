@@ -13,11 +13,12 @@ import { IconifyIcon } from '@vben/icons';
 import { Spin } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { getMenuList } from '#/api/system/menu';
-import { createRole, updateRole } from '#/api/system/role';
+// import { getMenuList } from '#/api/system/menu';
+// import { createRole, updateRole } from '#/api/system/role';
 import { $t } from '#/locales';
 
 import { useFormSchema } from '../data';
+import { listAdmin, upsertAdmin } from '#/api';
 
 const emits = defineEmits(['success']);
 
@@ -38,7 +39,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (!valid) return;
     const values = await formApi.getValues();
     drawerApi.lock();
-    (id.value ? updateRole(id.value, values) : createRole(values))
+    // (id.value ? updateRole(id.value, values) : createRole(values))
+    upsertAdmin('sys_role', values, id.value)
       .then(() => {
         emits('success');
         drawerApi.close();
@@ -69,7 +71,10 @@ const [Drawer, drawerApi] = useVbenDrawer({
 async function loadPermissions() {
   loadingPermissions.value = true;
   try {
-    const res = await getMenuList();
+    // await getMenuList();
+    const res = await listAdmin('sys_menu', {
+      _tree: 1,
+    });
     permissions.value = res as unknown as DataNode[];
   } finally {
     loadingPermissions.value = false;
@@ -98,7 +103,10 @@ function getNodeClass(node: Recordable<any>) {
   <Drawer :title="getDrawerTitle">
     <Form>
       <template #permissions="slotProps">
-        <Spin :spinning="loadingPermissions" wrapper-class-name="w-full">
+        <Spin
+          :spinning="loadingPermissions"
+          wrapper-class-name="w-full mh-50px"
+        >
           <VbenTree
             :tree-data="permissions"
             multiple
@@ -107,12 +115,12 @@ function getNodeClass(node: Recordable<any>) {
             :get-node-class="getNodeClass"
             v-bind="slotProps"
             value-field="id"
-            label-field="meta.title"
+            label-field="meta.name"
             icon-field="meta.icon"
           >
             <template #node="{ value }">
-              <IconifyIcon v-if="value.meta.icon" :icon="value.meta.icon" />
-              {{ $t(value.meta.title) }}
+              <IconifyIcon v-if="value.meta?.icon" :icon="value.meta.icon" />
+              {{ value.name }}
             </template>
           </VbenTree>
         </Spin>
@@ -135,5 +143,8 @@ function getNodeClass(node: Recordable<any>) {
     justify-content: flex-end;
     margin-left: 20px;
   }
+}
+.mh-50px {
+  min-height: 50px;
 }
 </style>

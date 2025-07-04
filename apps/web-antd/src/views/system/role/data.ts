@@ -97,7 +97,7 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
       },
       field: 'status',
       title: $t('system.role.status'),
-      // width: 100,
+      minWidth: 100,
     },
     {
       field: 'remark',
@@ -120,9 +120,9 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
         name: 'CellOperation',
       },
       field: 'operation',
-      fixed: 'right',
+      // fixed: 'right',
       title: $t('system.role.operation'),
-      // width: 130,
+      minWidth: 150,
     },
   ];
 }

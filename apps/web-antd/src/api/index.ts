@@ -27,16 +27,20 @@ export function queryAdmin(table: String, query?: Recordable<any>) {
     if (sort?.order) {
       body._order = `${sort.field} ${sort.order}`;
     }
-    return requestClient
-      .get<any>(adminBaseUrl + '/admin/list/' + table, {
-        params: body,
-      })
-      .then((data) => {
-        // 返回数据可统一处理
-        // console.log(data);
-        return data;
-      });
+    return listAdmin(table, body);
   };
+}
+
+export async function listAdmin(table: String, params: Recordable<any> | null) {
+  return requestClient
+    .get<any>(adminBaseUrl + '/admin/list/' + table, {
+      params,
+    })
+    .then((data) => {
+      // 返回数据可统一处理
+      // console.log(data);
+      return data;
+    });
 }
 
 export async function upsertAdmin(
