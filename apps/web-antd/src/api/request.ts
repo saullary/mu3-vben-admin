@@ -21,6 +21,12 @@ import { refreshTokenApi } from './core';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
+import supabase from './core/supabase';
+
+supabase.auth.onAuthStateChange((ev, session) => {
+  console.log(ev, session);
+});
+
 function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   const client = new RequestClient({
     ...options,
@@ -107,7 +113,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
 }
 
 export const requestClient = createRequestClient(apiURL, {
-  responseReturn: 'body',
+  responseReturn: 'body', // data
 });
 
 export const baseRequestClient = new RequestClient({ baseURL: apiURL });
