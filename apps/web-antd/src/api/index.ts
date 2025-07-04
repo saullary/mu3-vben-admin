@@ -3,8 +3,12 @@ export * from './core';
 import type { Recordable } from '@vben/types';
 import { requestClient } from './request';
 
+export const isDev = /localhost/.test(location.host);
+
 let adminBaseUrl = 'https://ice.qs3.fun/v1';
-// adminBaseUrl = 'http://localhost:6011/v1';
+if (isDev) {
+  adminBaseUrl = 'http://localhost:6011/v1';
+}
 
 export function queryAdmin(table: String, query?: Recordable<any>) {
   return async (params: Recordable<any>, form: Recordable<any>) => {
@@ -29,7 +33,7 @@ export function queryAdmin(table: String, query?: Recordable<any>) {
       })
       .then((data) => {
         // 返回数据可统一处理
-        console.log(data);
+        // console.log(data);
         return data;
       });
   };
