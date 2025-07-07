@@ -9,6 +9,7 @@ let adminBaseUrl = 'https://ice.qs3.fun/v1';
 if (isDev) {
   adminBaseUrl = 'http://localhost:6011/v1';
 }
+adminBaseUrl += '/admin/auth';
 
 export function queryAdmin(table: String, query?: Recordable<any>) {
   return async (params: Recordable<any>, form: Recordable<any>) => {
@@ -33,7 +34,7 @@ export function queryAdmin(table: String, query?: Recordable<any>) {
 
 export async function listAdmin(table: String, params: Recordable<any> | null) {
   return requestClient
-    .get<any>(adminBaseUrl + '/admin/list/' + table, {
+    .get<any>(adminBaseUrl + '/list/' + table, {
       params,
     })
     .then((data) => {
@@ -57,5 +58,5 @@ export async function upsertAdmin(
       _delete: 1,
     };
   }
-  return requestClient.post<any>(adminBaseUrl + '/admin/upsert/' + table, body);
+  return requestClient.post<any>(adminBaseUrl + '/upsert/' + table, body);
 }
