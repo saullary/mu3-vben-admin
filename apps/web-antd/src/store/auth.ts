@@ -7,17 +7,15 @@ import { LOGIN_PATH } from '@vben/constants';
 import { preferences } from '@vben/preferences';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 
-import { notification } from 'ant-design-vue';
+// import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
 import {
-  getAccessCodesApi,
+  // getAccessCodesApi,
   getUserInfoApi,
-  loginApi,
-  loginApi2,
-  logoutApi,
 } from '#/api';
-import { $t } from '#/locales';
+// import { $t } from '#/locales';
+import supabase, { getSbData } from '#/api/core/supabase';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -39,42 +37,37 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const {
-        data: { accessToken },
-      } = await loginApi2(params);
+      console.log(params);
+      const res = await supabase.auth.signInWithPassword({
+        email: params.username,
+        password: params.password,
+      });
+      const { user, session } = getSbData(res, true, '认证未通过');
+      accessStore.setAccessToken(session.access_token);
 
-      // 如果成功获取到 accessToken
-      if (accessToken) {
-        accessStore.setAccessToken(accessToken);
+      userInfo = {
+        userId: user.id,
+        username: user.email,
+        realName: user.email,
+        avatar: '',
+        desc: 'test',
+        homePath: '/',
+        token: session.access_token,
+      };
+      userStore.setUserInfo(userInfo);
+      // userStore.setSupaUser(user)
+      accessStore.setAccessCodes([
+        'AC_100100',
+        'AC_100110',
+        'AC_100120',
+        'AC_100010',
+      ]);
 
-        // 获取用户信息并存储到 accessStore 中
-        const [fetchUserInfoResult, accessCodes] = await Promise.all([
-          fetchUserInfo(),
-          getAccessCodesApi(),
-        ]);
-
-        userInfo = fetchUserInfoResult;
-
-        userStore.setUserInfo(userInfo);
-        accessStore.setAccessCodes(accessCodes);
-
-        if (accessStore.loginExpired) {
-          accessStore.setLoginExpired(false);
-        } else {
-          onSuccess
-            ? await onSuccess?.()
-            : await router.push(
-                userInfo.homePath || preferences.app.defaultHomePath,
-              );
-        }
-
-        if (userInfo?.realName) {
-          notification.success({
-            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
-            duration: 3,
-            message: $t('authentication.loginSuccess'),
-          });
-        }
+      if (onSuccess) {
+        await onSuccess();
+      } else {
+        console.log('111');
+        await router.push(userInfo.homePath || preferences.app.defaultHomePath);
       }
     } finally {
       loginLoading.value = false;
@@ -87,7 +80,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function logout(redirect: boolean = true) {
     try {
-      await logoutApi();
+      // await logoutApi();
+      await supabase.auth.signOut();
     } catch {
       // 不做任何处理
     }

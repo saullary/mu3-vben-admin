@@ -29,27 +29,6 @@ const notifications = ref<NotificationItem[]>([
     message: '描述信息描述信息描述信息',
     title: '收到了 14 份新周报',
   },
-  {
-    avatar: 'https://avatar.vercel.sh/1',
-    date: '刚刚',
-    isRead: false,
-    message: '描述信息描述信息描述信息',
-    title: '朱偏右 回复了你',
-  },
-  {
-    avatar: 'https://avatar.vercel.sh/1',
-    date: '2024-01-01',
-    isRead: false,
-    message: '描述信息描述信息描述信息',
-    title: '曲丽丽 评论了你',
-  },
-  {
-    avatar: 'https://avatar.vercel.sh/satori',
-    date: '1天前',
-    isRead: false,
-    message: '描述信息描述信息描述信息',
-    title: '代办提醒',
-  },
 ]);
 
 const userStore = useUserStore();
@@ -129,7 +108,7 @@ watch(
         :avatar
         :menus
         :text="userStore.userInfo?.realName"
-        description="ann.vben@gmail.com"
+        :description="userStore.userInfo?.username"
         tag-text="Pro"
         @logout="handleLogout"
       />

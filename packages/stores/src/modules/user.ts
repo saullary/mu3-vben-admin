@@ -29,6 +29,7 @@ interface AccessState {
    * 用户信息
    */
   userInfo: BasicUserInfo | null;
+  supaUser: Object | null;
   /**
    * 用户角色
    */
@@ -50,9 +51,16 @@ export const useUserStore = defineStore('core-user', {
     setUserRoles(roles: string[]) {
       this.userRoles = roles;
     },
+    setSupaUser(user: Object | null) {
+      this.supaUser = user;
+    },
+  },
+  persist: {
+    pick: ['userInfo', 'userRoles'],
   },
   state: (): AccessState => ({
     userInfo: null,
+    supaUser: null,
     userRoles: [],
   }),
 });
