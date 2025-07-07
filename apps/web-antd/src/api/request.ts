@@ -69,9 +69,11 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   // 请求头处理
   client.addRequestInterceptor({
     fulfilled: async (config) => {
-      const accessStore = useAccessStore();
-
-      config.headers.Authorization = formatToken(accessStore.accessToken);
+      // const accessStore = useAccessStore(); // accessStore.accessToken
+      const res = await supabase.auth.getSession();
+      config.headers.Authorization = formatToken(
+        res.data?.session?.access_token || null,
+      );
       config.headers['Accept-Language'] = preferences.app.locale;
       return config;
     },
