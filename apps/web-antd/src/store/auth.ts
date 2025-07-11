@@ -42,7 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
         email: params.username,
         password: params.password,
       });
-      const { user, session } = getSbData(res, true, '认证未通过');
+      const { user, session } = getSbData(res, true, '登录信息不正确');
       accessStore.setAccessToken(session.access_token);
 
       userInfo = {

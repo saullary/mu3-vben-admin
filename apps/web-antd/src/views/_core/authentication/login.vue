@@ -49,22 +49,22 @@ const formSchema = computed((): VbenFormSchema[] => {
       componentProps: {
         placeholder: $t('authentication.usernameTip'),
       },
-      dependencies: {
-        trigger(values, form) {
-          if (values.selectAccount) {
-            const findUser = MOCK_USER_OPTIONS.find(
-              (item) => item.value === values.selectAccount,
-            );
-            if (findUser) {
-              form.setValues({
-                password: '123456',
-                username: findUser.value,
-              });
-            }
-          }
-        },
-        triggerFields: ['selectAccount'],
-      },
+      // dependencies: {
+      //   trigger(values, form) {
+      //     if (values.selectAccount) {
+      //       const findUser = MOCK_USER_OPTIONS.find(
+      //         (item) => item.value === values.selectAccount,
+      //       );
+      //       if (findUser) {
+      //         form.setValues({
+      //           password: '123456',
+      //           username: findUser.value,
+      //         });
+      //       }
+      //     }
+      //   },
+      //   triggerFields: ['selectAccount'],
+      // },
       fieldName: 'username',
       label: $t('authentication.username'),
       rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
@@ -78,13 +78,13 @@ const formSchema = computed((): VbenFormSchema[] => {
       label: $t('authentication.password'),
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
-    {
-      component: markRaw(SliderCaptcha),
-      fieldName: 'captcha',
-      rules: z.boolean().refine((value) => value, {
-        message: $t('authentication.verifyRequiredTip'),
-      }),
-    },
+    // {
+    //   component: markRaw(SliderCaptcha),
+    //   fieldName: 'captcha',
+    //   rules: z.boolean().refine((value) => value, {
+    //     message: $t('authentication.verifyRequiredTip'),
+    //   }),
+    // },
   ];
 });
 </script>
@@ -96,7 +96,6 @@ const formSchema = computed((): VbenFormSchema[] => {
     :showThirdPartyLogin="false"
     :showRegister="false"
     :showQrcodeLogin="false"
-    :showRememberMe="false"
     @submit="authStore.authLogin"
   />
 </template>
