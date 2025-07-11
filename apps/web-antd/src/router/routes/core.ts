@@ -83,6 +83,14 @@ const coreRoutes: RouteRecordRaw[] = [
         },
       },
       {
+        name: 'UpdatePsw',
+        path: 'update-password',
+        component: () => import('#/views/_core/authentication/update-psw.vue'),
+        meta: {
+          title: '重置密码',
+        },
+      },
+      {
         name: 'Register',
         path: 'register',
         component: () => import('#/views/_core/authentication/register.vue'),

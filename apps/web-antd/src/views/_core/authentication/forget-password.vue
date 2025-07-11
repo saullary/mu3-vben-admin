@@ -6,10 +6,12 @@ import { computed, ref } from 'vue';
 
 import { AuthenticationForgetPassword, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+import supabase from '#/api/core/supabase';
 
 defineOptions({ name: 'ForgetPassword' });
 
 const loading = ref(false);
+const sendTo = ref('');
 
 const formSchema = computed((): VbenFormSchema[] => {
   return [
@@ -28,14 +30,29 @@ const formSchema = computed((): VbenFormSchema[] => {
   ];
 });
 
-function handleSubmit(value: Recordable<any>) {
-  // eslint-disable-next-line no-console
-  console.log('reset email:', value);
+async function handleSubmit(value: Recordable<any>) {
+  // console.log('reset email:', value);
+  try {
+    loading.value = true;
+    const data = await supabase.auth.resetPasswordForEmail(value.email, {
+      redirectTo: location.origin + '/auth/update-password',
+    });
+    console.log(data);
+    sendTo.value = value.email;
+  } catch (error) {
+    console.log(error);
+  }
+  loading.value = false;
 }
 </script>
 
 <template>
+  <div v-if="sendTo" class="text-center">
+    <div class="text-base">密码重置邮件已发送至</div>
+    <div class="mt-2">{{ sendTo }}</div>
+  </div>
   <AuthenticationForgetPassword
+    v-else
     :form-schema="formSchema"
     :loading="loading"
     @submit="handleSubmit"
