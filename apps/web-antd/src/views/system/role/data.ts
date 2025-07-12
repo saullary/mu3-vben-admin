@@ -1,6 +1,16 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
-import type { SystemRoleApi } from '#/api';
+
+export namespace SystemRoleApi {
+  export interface SystemRole {
+    [key: string]: any;
+    id: string;
+    name: string;
+    permissions: any[];
+    remark?: string;
+    status: 0 | 1;
+  }
+}
 
 import { $t } from '#/locales';
 
@@ -36,7 +46,7 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'permissions',
       formItemClass: 'items-start',
       label: $t('system.role.setPermissions'),
-      modelPropName: 'modelValue',
+      // modelPropName: 'modelValue',
     },
   ];
 }
@@ -83,7 +93,7 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
       field: 'name',
       title: $t('system.role.roleName'),
       minWidth: 100,
-      sortable: true,
+      // sortable: true,
     },
     {
       field: 'id',
@@ -103,6 +113,11 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
       field: 'remark',
       minWidth: 100,
       title: $t('system.role.remark'),
+    },
+    {
+      field: 'permissions',
+      minWidth: 100,
+      title: '权限',
     },
     {
       field: 'created_t',

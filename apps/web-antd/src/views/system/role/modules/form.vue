@@ -3,7 +3,7 @@ import type { DataNode } from 'ant-design-vue/es/tree';
 
 import type { Recordable } from '@vben/types';
 
-import type { SystemRoleApi } from '#/api/system/role';
+import type { SystemRoleApi } from '../data';
 
 import { computed, ref } from 'vue';
 

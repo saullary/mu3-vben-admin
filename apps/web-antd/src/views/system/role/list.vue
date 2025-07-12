@@ -5,7 +5,7 @@ import type {
   OnActionClickParams,
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
-import type { SystemRoleApi } from '#/api/system/role';
+import type { SystemRoleApi } from './data';
 
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
@@ -38,7 +38,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
       ajax: {
         query: queryAdmin('sys_role'),
       },
-      sort: true,
+      // sort: true,
     },
     rowConfig: {
       keyField: 'id',

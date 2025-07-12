@@ -24,7 +24,7 @@ const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 import supabase from './core/supabase';
 
 supabase.auth.onAuthStateChange((ev, session) => {
-  console.log(ev, session);
+  console.log(ev);
 });
 
 function createRequestClient(baseURL: string, options?: RequestClientOptions) {
