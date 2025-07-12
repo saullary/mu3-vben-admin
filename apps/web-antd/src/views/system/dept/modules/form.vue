@@ -43,7 +43,12 @@ const [Modal, modalApi] = useVbenModal({
         // await (formData.value?.id
         //   ? updateDept(formData.value.id, data)
         //   : createDept(data));
-        await upsertAdmin('sys_dept', data, formData.value?.id);
+        await upsertAdmin(
+          'sys_dept',
+          data,
+          formData.value?.id,
+          modalApi.getData(),
+        );
         modalApi.close();
         emit('success');
       } finally {

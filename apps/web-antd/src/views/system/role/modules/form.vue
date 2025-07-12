@@ -40,7 +40,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     const values = await formApi.getValues();
     drawerApi.lock();
     // (id.value ? updateRole(id.value, values) : createRole(values))
-    upsertAdmin('sys_role', values, id.value)
+    upsertAdmin('sys_role', values, id.value, drawerApi.getData())
       .then(() => {
         emits('success');
         drawerApi.close();
@@ -49,20 +49,19 @@ const [Drawer, drawerApi] = useVbenDrawer({
         drawerApi.unlock();
       });
   },
-  onOpenChange(isOpen) {
+  async onOpenChange(isOpen) {
     if (isOpen) {
       const data = drawerApi.getData<SystemRoleApi.SystemRole>();
       formApi.resetForm();
+      if (permissions.value.length === 0) {
+        await loadPermissions();
+      }
       if (data) {
         formData.value = data;
         id.value = data.id;
         formApi.setValues(data);
       } else {
         id.value = undefined;
-      }
-
-      if (permissions.value.length === 0) {
-        loadPermissions();
       }
     }
   },

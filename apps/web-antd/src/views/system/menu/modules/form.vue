@@ -486,7 +486,12 @@ async function onSubmit() {
     }
     delete data.linkSrc;
     try {
-      await upsertAdmin('sys_menu', data, formData.value?.id);
+      await upsertAdmin(
+        'sys_menu',
+        data,
+        formData.value?.id,
+        drawerApi.getData(),
+      );
       drawerApi.close();
       emit('success');
     } finally {
