@@ -48,16 +48,16 @@ export async function upsertAdmin(
   table: String,
   params: Recordable<any> | null,
   id?: any,
-  prevRow?: Recordable<any>,
+  oldRow?: Recordable<any>,
 ) {
   let body = { ...params };
-  if (prevRow) {
-    for (const key in prevRow) {
-      const prevVal = prevRow[key];
+  if (oldRow) {
+    for (const key in oldRow) {
+      const oldVal = oldRow[key];
       const val = body[key];
-      let same = prevVal === val;
+      let same = oldVal === val;
       if (typeof val == 'object' && val) {
-        same = JSON.stringify(val) == JSON.stringify(prevVal);
+        same = JSON.stringify(val) == JSON.stringify(oldVal);
       }
       if (same) delete body[key];
     }

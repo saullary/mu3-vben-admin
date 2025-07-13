@@ -47,6 +47,7 @@ export function useFormSchema(): VbenFormSchema[] {
       formItemClass: 'items-start',
       label: $t('system.role.setPermissions'),
       // modelPropName: 'modelValue',
+      defaultValue: [],
     },
   ];
 }
