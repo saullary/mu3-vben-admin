@@ -118,7 +118,7 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
     {
       field: 'permissions',
       minWidth: 100,
-      title: '权限',
+      title: '权限ID',
     },
     {
       field: 'created_t',

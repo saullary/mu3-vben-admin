@@ -39,7 +39,7 @@ export function useFormSchema(): VbenFormSchema[] {
         labelField: 'name',
         valueField: 'id',
       },
-      fieldName: 'role',
+      fieldName: 'role_id',
       label: '角色',
     },
   ];
@@ -87,8 +87,8 @@ export function useColumns<T = UserInfoApi.UserInfo>(
       title: '邮箱',
     },
     {
-      field: 'role',
-      slots: { default: 'role' },
+      field: 'role_id',
+      slots: { default: 'role_id' },
       minWidth: 100,
       title: '角色',
     },

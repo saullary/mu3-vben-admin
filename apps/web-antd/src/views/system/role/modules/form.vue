@@ -73,6 +73,7 @@ async function loadPermissions() {
     // await getMenuList();
     const res = await listAdmin('sys_menu', {
       _tree: 1,
+      _select: 'id,name,pid',
     });
     permissions.value = res as unknown as DataNode[];
   } finally {

@@ -69,6 +69,7 @@ const schema: VbenFormSchema[] = [
     componentProps: {
       api: queryAdmin('sys_menu', {
         _tree: 2,
+        _select: 'id,name,pid',
       }),
       class: 'w-full',
       filterTreeNode(input: string, node: Recordable<any>) {

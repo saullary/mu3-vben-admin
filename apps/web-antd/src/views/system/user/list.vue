@@ -126,8 +126,8 @@ function onCreate() {
         </Button>
       </template>
 
-      <template #role="{ row }">
-        <span>{{ getRoleName(row.role) }}</span>
+      <template #role_id="{ row }">
+        <span>{{ getRoleName(row.role_id) }}</span>
       </template>
     </Grid>
   </Page>
