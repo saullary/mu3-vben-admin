@@ -1,25 +1,34 @@
 <script lang="ts" setup>
-import type { Recordable } from '@vben/types';
-
 import type {
   OnActionClickParams,
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
-import type { SystemRoleApi } from './data';
 
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
-import { Button, message, Modal } from 'ant-design-vue';
+import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { queryAdmin, upsertAdmin } from '#/api';
+import { listAdmin, queryAdmin, upsertAdmin } from '#/api';
 import { $t } from '#/locales';
 
-import { useColumns, useGridFormSchema } from './data';
-import Form from './modules/form.vue';
+import Form from './form.vue';
 
-const tableName = 'sys_role';
+import { useColumns, useGridFormSchema, tableName } from './data';
+import type { UserInfoApi } from './data';
+import { onMounted } from 'vue';
+
+let roleList: any[] = [];
+
+onMounted(() => {
+  listAdmin('sys_role').then((data) => {
+    roleList = data;
+  });
+});
+function getRoleName(id: number) {
+  return roleList.find((it) => it.id == id)?.name || id;
+}
 
 const [FormDrawer, formDrawerApi] = useVbenDrawer({
   connectedComponent: Form,
@@ -33,7 +42,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     submitOnChange: true,
   },
   gridOptions: {
-    columns: useColumns(onActionClick, onStatusChange),
+    columns: useColumns(onActionClick),
     height: 'auto',
     keepSource: true,
     proxyConfig: {
@@ -57,10 +66,10 @@ const [Grid, gridApi] = useVbenVxeGrid({
       search: true,
       zoom: true,
     },
-  } as VxeTableGridOptions<SystemRoleApi.SystemRole>,
+  } as VxeTableGridOptions<UserInfoApi.UserInfo>,
 });
 
-function onActionClick(e: OnActionClickParams<SystemRoleApi.SystemRole>) {
+function onActionClick(e: OnActionClickParams<UserInfoApi.UserInfo>) {
   switch (e.code) {
     case 'delete': {
       onDelete(e.row);
@@ -73,57 +82,11 @@ function onActionClick(e: OnActionClickParams<SystemRoleApi.SystemRole>) {
   }
 }
 
-/**
- * 将Antd的Modal.confirm封装为promise，方便在异步函数中调用。
- * @param content 提示内容
- * @param title 提示标题
- */
-function confirm(content: string, title: string) {
-  return new Promise((reslove, reject) => {
-    Modal.confirm({
-      content,
-      onCancel() {
-        reject(new Error('已取消'));
-      },
-      onOk() {
-        reslove(true);
-      },
-      title,
-    });
-  });
-}
-
-/**
- * 状态开关即将改变
- * @param newStatus 期望改变的状态值
- * @param row 行数据
- * @returns 返回false则中止改变，返回其他值（undefined、true）则允许改变
- */
-async function onStatusChange(
-  newStatus: number,
-  row: SystemRoleApi.SystemRole,
-) {
-  const status: Recordable<string> = {
-    0: '禁用',
-    1: '启用',
-  };
-  try {
-    await confirm(
-      `你要将${row.name}的状态切换为 【${status[newStatus.toString()]}】 吗？`,
-      `切换状态`,
-    );
-    await upsertAdmin(tableName, { status: newStatus }, row.id);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function onEdit(row: SystemRoleApi.SystemRole) {
+function onEdit(row: UserInfoApi.UserInfo) {
   formDrawerApi.setData(row).open();
 }
 
-function onDelete(row: SystemRoleApi.SystemRole) {
+function onDelete(row: UserInfoApi.UserInfo) {
   const hideLoading = message.loading({
     content: $t('ui.actionMessage.deleting', [row.name]),
     duration: 0,
@@ -151,15 +114,20 @@ function onCreate() {
   formDrawerApi.setData({}).open();
 }
 </script>
+
 <template>
   <Page auto-content-height>
     <FormDrawer @success="onRefresh" />
-    <Grid :table-title="$t('system.role.list')">
+    <Grid table-title="用户列表">
       <template #toolbar-tools>
         <Button type="primary" @click="onCreate">
           <Plus class="size-5" />
-          {{ $t('ui.actionTitle.create', [$t('system.role.name')]) }}
+          新增用户
         </Button>
+      </template>
+
+      <template #role="{ row }">
+        <span>{{ getRoleName(row.role) }}</span>
       </template>
     </Grid>
   </Page>

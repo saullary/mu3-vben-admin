@@ -8,9 +8,10 @@ export const supabase: SupabaseClient = createClient(
   env.VITE_SUPABASE_KEY,
 );
 
-export function getSbData(res: any, showTip = true, errMsg?: string) {
+export function getSbData(res: any, showTip = true, opts?: any) {
   if (res.error) {
-    const msg = errMsg || res.error.message;
+    const { getErrMsg } = opts;
+    const msg = getErrMsg ? getErrMsg(res.error) : res.error.message;
     if (showTip) {
       message.error(msg);
     }

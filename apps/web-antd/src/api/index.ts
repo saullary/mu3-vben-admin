@@ -32,7 +32,10 @@ export function queryAdmin(table: String, query?: Recordable<any>) {
   };
 }
 
-export async function listAdmin(table: String, params: Recordable<any> | null) {
+export async function listAdmin(
+  table: String,
+  params?: Recordable<any> | null,
+) {
   return requestClient
     .get<any>(adminBaseUrl + '/list/' + table, {
       params,

@@ -60,6 +60,14 @@ setupVbenVxeTable({
       }
     });
 
+    // 表格配置项可以用 cellRender: { name: 'CellApi' }, // 每次渲染都要请求一次接口，不可行
+    // vxeUI.renderer.add('CellApi', {
+    //   renderTableDefault({props}, params) {
+    //     const { column, row } = params;
+    //     return h(Image, { rowId: row[column.field], ...props });
+    //   },
+    // });
+
     // 表格配置项可以用 cellRender: { name: 'CellImage' },
     vxeUI.renderer.add('CellImage', {
       renderTableDefault(_renderOpts, params) {
