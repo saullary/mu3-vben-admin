@@ -8,8 +8,9 @@ import { Button } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
-import { useGridColumns, useGridFormSchema } from './data';
+import { useGridColumns, useGridFormSchema, table } from './data';
 import Form from './form.vue';
+import { queryAdmin } from '#/api';
 
 const [FormModal, formModalApi] = useVbenModal({
   connectedComponent: Form,
@@ -21,15 +22,10 @@ function onRefresh() {
   gridApi.query();
 }
 
-/** 创建门店 */
-function handleCreate() {
-  formModalApi.setData(null).open();
-}
-
 /** 编辑门店 */
-// function handleEdit(row: any) {
-//   formModalApi.setData(row).open();
-// }
+function handleEdit(row?: any) {  
+  formModalApi.setData(row).open();
+}
 
 const [Grid, gridApi] = useVbenVxeGrid({
   // 搜索条件
@@ -44,11 +40,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     keepSource: true,
     proxyConfig: {
       ajax: {
-        // query: async ({ page }, formValues) => {
-        query: async () => {
-          // page: currentPage  pageSize total
-          // formValues: 搜索条件
-        },
+        query: queryAdmin(table),
       },
     },
     rowConfig: {
@@ -70,7 +62,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
 
     <Grid table-title="门店列表">
       <template #toolbar-tools>
-        <Button type="primary" @click="handleCreate()">
+        <Button type="primary" @click="handleEdit()">
           <template #icon>
             <IconifyIcon icon="lucide:plus" />
           </template>
@@ -78,8 +70,8 @@ const [Grid, gridApi] = useVbenVxeGrid({
         </Button>
       </template>
 
-      <template #actions>
-        <div>操作列</div>
+      <template #actions="{ row } ">
+        <Button type="primary" @click="handleEdit(row)">编辑</Button>
       </template>
     </Grid>
   </Page>

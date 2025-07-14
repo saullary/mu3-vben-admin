@@ -7,6 +7,8 @@ import dayjs from 'dayjs';
 
 import { z } from '#/adapter/form';
 
+export const table = "shop_info"
+
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
   return [
@@ -50,16 +52,14 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'Input',
       fieldName: 'host_tel',
       label: '门店手机',
-      rules: '',
+      // rules: 'mobileRequired',
+      rules: z.string().regex(/(?:0|86|\+86)?1[3-9]\d{9}/, '请输入正确的手机号码'),
     },
     {
       fieldName: 'area_name',
       label: '地址',
-      component: 'ApiTreeSelect',
-      componentProps: {
-        // api: () => getAreaTree(),
-        fieldNames: { label: 'name', value: 'id', children: 'children' },
-      },
+      component: 'Input',
+      rules: 'required'
     },
     {
       fieldName: 'status',
@@ -166,31 +166,24 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       field: 'id',
       title: '编号',
     },
-    {
-      field: 'logo',
-      title: '门店logo',
-      cellRender: {
-        name: 'CellImage',
-      },
-    },
+    // {
+    //   field: 'logo',
+    //   title: '门店logo',
+    //   cellRender: {
+    //     name: 'CellImage',
+    //   },
+    // },
     {
       field: 'name',
       title: '门店名称',
     },
     {
-      field: 'phone',
+      field: 'host_tel',
       title: '门店手机',
     },
     {
-      field: 'detailAddress',
+      field: 'area_name',
       title: '地址',
-    },
-    {
-      field: 'openingTime',
-      title: '营业时间',
-      formatter: ({ row }) => {
-        return `${row.openingTime} ~ ${row.closingTime}`;
-      },
     },
     {
       field: 'status',
