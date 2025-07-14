@@ -5,9 +5,9 @@ import { requestClient } from './request';
 
 export const isDev = /localhost/.test(location.host);
 
-let adminBaseUrl = 'https://ice.qs3.fun/v1';
+let adminBaseUrl = 'https://mu3.hqs.link/v1';
 if (isDev) {
-  adminBaseUrl = 'http://localhost:6011/v1';
+  // adminBaseUrl = 'http://localhost:6011/v1';
 }
 adminBaseUrl += '/admin/auth';
 
