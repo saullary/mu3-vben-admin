@@ -126,6 +126,11 @@ function onCreate() {
         </Button>
       </template>
 
+      <template #user_id="{ row }">
+        <span>({{ row.id }})</span>
+        <span class="ml-1">{{ row.user_id }}</span>
+        <!-- <Button type="ghost">{{ row.user_id }}</Button> -->
+      </template>
       <template #role_id="{ row }">
         <span>{{ getRoleName(row.role_id) }}</span>
       </template>

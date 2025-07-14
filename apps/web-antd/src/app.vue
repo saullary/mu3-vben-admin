@@ -37,3 +37,13 @@ const tokenTheme = computed(() => {
     </App>
   </ConfigProvider>
 </template>
+
+<style lang="scss">
+.ant-select-tree-treenode {
+  width: 100%;
+  .ant-select-tree-title {
+    display: inline-block;
+    padding: 3px;
+  }
+}
+</style>

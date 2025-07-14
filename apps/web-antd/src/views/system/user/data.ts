@@ -1,4 +1,4 @@
-import type { VbenFormSchema } from '#/adapter/form';
+import { z, type VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
 import { listAdmin, queryAdmin } from '#/api';
 import { $t } from '#/locales';
@@ -28,6 +28,14 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'Input',
       fieldName: 'email',
       label: '邮箱',
+      rules: z.string().email(),
+      // dependencies: {
+      //   disabled(values, row) {
+      //     console.log(values, row);
+      //     return !values.user_id;
+      //   },
+      //   triggerFields: ['user_id'],
+      // },
     },
     {
       component: 'ApiTreeSelect',
@@ -78,6 +86,7 @@ export function useColumns<T = UserInfoApi.UserInfo>(
     },
     {
       field: 'id',
+      slots: { default: 'user_id' },
       title: 'ID',
       minWidth: 80,
     },
