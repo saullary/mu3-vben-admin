@@ -9,6 +9,16 @@ import { z } from '#/adapter/form';
 
 export const table = "shop_info"
 
+export enum ShopInfoStatusEnum {
+  "正常营业" = 1,
+  "暂停营业" = 0
+}
+const shopInfoStatusSel = [
+  { label: "正常营业", value: 1 },
+  { label: "暂停营业", value: 0 }
+]
+
+
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
   return [
@@ -66,10 +76,7 @@ export function useFormSchema(): VbenFormSchema[] {
       label: '门店状态',
       component: 'RadioGroup',
       componentProps: {
-        options: [
-          { label: '营业中', value: 1 },
-          { label: '休息中', value: 2 },
-        ],
+        options: shopInfoStatusSel,
         buttonStyle: 'solid',
         optionType: 'button',
       },
@@ -82,12 +89,12 @@ export function useFormSchema(): VbenFormSchema[] {
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
-      fieldName: 'phone',
+      fieldName: 'host_tel',
       label: '门店手机',
       component: 'Input',
     },
     {
-      fieldName: 'name',
+      fieldName: 'host_name',
       label: '门店名称',
       component: 'Input',
     },
@@ -97,11 +104,11 @@ export function useGridFormSchema(): VbenFormSchema[] {
       component: 'Select',
       componentProps: {
         allowClear: true,
-        options: [],
+        options: shopInfoStatusSel,
       },
     },
     {
-      fieldName: 'createTime',
+      fieldName: 'created_at',
       label: '创建时间',
       component: 'RangePicker',
       componentProps: {
@@ -110,32 +117,28 @@ export function useGridFormSchema(): VbenFormSchema[] {
         presets: [
           {
             label: '今天',
-            value: () =>
-              [dayjs().startOf('day'), dayjs().endOf('day')] as [Dayjs, Dayjs],
+            value: [dayjs().startOf('day'), dayjs().endOf('day')],
           },
           {
             label: '最近一周',
-            value: () =>
-              [
+            value: [
                 dayjs().subtract(7, 'day').startOf('day'),
                 dayjs().endOf('day'),
-              ] as [Dayjs, Dayjs],
+              ],
           },
           {
             label: '最近三十天',
-            value: () =>
-              [
+            value: [
                 dayjs().subtract(30, 'day').startOf('day'),
                 dayjs().endOf('day'),
-              ] as [Dayjs, Dayjs],
+              ],
           },
           {
             label: '昨天',
-            value: () =>
-              [
+            value: [
                 dayjs().subtract(1, 'day').startOf('day'),
                 dayjs().subtract(1, 'day').endOf('day'),
-              ] as [Dayjs, Dayjs],
+              ],
           },
         ],
         showTime: {
@@ -144,13 +147,6 @@ export function useGridFormSchema(): VbenFormSchema[] {
             dayjs('23:59:59', 'HH:mm:ss'),
           ],
           format: 'HH:mm:ss',
-        },
-        transformDateFunc: (dates: any) => {
-          if (dates && dates.length === 2) {
-            // 格式化为后台支持的时间格式
-            return [dates.createTime[0], dates.createTime[1]].join(',');
-          }
-          return {};
         },
         valueFormat: 'YYYY-MM-DD HH:mm:ss',
         allowClear: true,
@@ -165,6 +161,7 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
     {
       field: 'id',
       title: '编号',
+      fixed: 'left',
     },
     // {
     //   field: 'logo',
@@ -188,10 +185,7 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
     {
       field: 'status',
       title: '开启状态',
-      cellRender: {
-        name: 'CellDict',
-        props: { type: 'common_status' },
-      },
+      slots: { default: 'status' }
     },
     {
       field: 'createTime',
