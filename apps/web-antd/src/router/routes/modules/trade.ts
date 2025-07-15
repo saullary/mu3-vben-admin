@@ -15,10 +15,18 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '门店管理',
         },
-        name: 'shop',
+        name: 'Shop',
         path: '/trade/shop',
         component: () => import('#/views/trade/shop/list.vue'),
       },
+      {
+        meta: {
+          title: '商品管理',
+        },
+        name: 'Goods',
+        path: '/trade/goods',
+        component: () => import('#/views/trade/goods/list.vue'),
+      }
     ],
   },
 ];
