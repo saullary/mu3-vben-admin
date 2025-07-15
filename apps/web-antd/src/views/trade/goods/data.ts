@@ -146,8 +146,8 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       cellRender: {
         name: 'CellTag',
         options: [
-          { label: '上架', value: 1 },
-          { label: '下架', value: 0 }
+          { label: '上架', value: 1, color: 'hsl( var(--primary) )' },
+          { label: '下架', value: 0, color: 'hsl( var(--warning) )' }
         ]
       }
     },

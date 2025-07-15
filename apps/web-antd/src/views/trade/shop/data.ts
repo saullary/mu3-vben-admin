@@ -191,8 +191,8 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       cellRender: {
         name: "CellTag",
         options: [
-          { color: 'var(--vxe-ui-table-cell-negative-color)', label: '停业中', value: 0 },
-          { color: 'var(--vxe-ui-font-primary-color)', label: '营业中', value: 1 },
+          { color: 'hsl( var(--warning) )', label: '停业中', value: 0 },
+          { color: 'hsl( var(--primary) )', label: '营业中', value: 1 },
         ]
       }
     },
