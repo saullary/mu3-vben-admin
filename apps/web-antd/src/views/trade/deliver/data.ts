@@ -23,13 +23,13 @@ export function useColumns(
       field: 'company',
       title: '快递公司', //$t('kd.company'),
       slots: { default: 'company' },
-      minWidth: 60,
+      minWidth: 80,
     },
     {
       align: 'center',
       field: 'order_no',
       title: '订单号',
-      // width: 100,
+      minWidth: 80,
     },
     {
       field: 'phone',
@@ -40,19 +40,18 @@ export function useColumns(
       field: 'result',
       slots: { default: 'result' },
       title: '物流信息',
-      // width: 200,
+      minWidth: 80,
     },
     {
       field: 'status',
       slots: { default: 'status' },
       title: '状态',
-      // width: 200,
     },
 
     {
       field: 'created_t',
       title: '创建时间',
-      // width: 180,
+      minWidth: 120,
     },
   ];
 }

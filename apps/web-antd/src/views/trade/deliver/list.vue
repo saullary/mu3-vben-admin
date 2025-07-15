@@ -93,7 +93,7 @@ function onDelete(row: any) {
 </script>
 <template>
   <Page auto-content-height>
-    <Grid>
+    <Grid table-title="快递记录">
       <template #company="{ row }">
         {{ kd100.getKdCompany(row.company) }}
       </template>

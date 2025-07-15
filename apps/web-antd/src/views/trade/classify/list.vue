@@ -108,7 +108,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
   <Page auto-content-height>
     <FormModal @success="onRefresh" />
 
-    <Grid table-title="门店列表">
+    <Grid table-title="分类列表">
       <template #toolbar-tools>
         <Button type="primary" @click="handleEdit()">
           <template #icon>
