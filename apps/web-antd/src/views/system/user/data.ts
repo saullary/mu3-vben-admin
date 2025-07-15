@@ -68,7 +68,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
     },
     {
       component: 'RangePicker',
-      fieldName: 'createTime',
+      fieldName: 'created_at',
       label: $t('system.role.createTime'),
     },
   ];

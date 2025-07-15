@@ -37,7 +37,7 @@ const [FormDrawer, formDrawerApi] = useVbenDrawer({
 
 const [Grid, gridApi] = useVbenVxeGrid({
   formOptions: {
-    fieldMappingTime: [['createTime', ['startTime', 'endTime']]],
+    // fieldMappingTime: [['createTime', ['startTime', 'endTime']]],
     schema: useGridFormSchema(),
     submitOnChange: true,
   },
