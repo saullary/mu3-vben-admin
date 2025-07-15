@@ -3,11 +3,11 @@ export * from './core';
 import type { Recordable } from '@vben/types';
 import { requestClient } from './request';
 
-export const isDev = /localhost/.test(location.host);
+export const isDev = /127/.test(location.host);
 
 let adminBaseUrl = 'https://mu3.hqs.link/v1';
 if (isDev) {
-  // adminBaseUrl = 'http://localhost:6011/v1';
+  adminBaseUrl = 'http://localhost:6011/v1';
 }
 adminBaseUrl += '/admin/auth';
 
