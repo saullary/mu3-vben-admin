@@ -42,11 +42,11 @@ export function useFormSchema(): VbenFormSchema[] {
     {
       component: 'Textarea',
       fieldName: 'bio',
-      label: '商品简介',
+      label: '简介',
     },
     {
       component: 'InputNumber',
-      label: '划线价格',
+      label: '原价',
       fieldName: 'price_old',
       componentProps: {
         min: 0,
@@ -56,7 +56,7 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       component: 'InputNumber',
-      label: '售卖天数',
+      label: '保质期',
       fieldName: 'shelf_day',
       componentProps: {
         min: 0,
@@ -67,7 +67,7 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       fieldName: 'status',
-      label: '商品状态',
+      label: '状态',
       component: 'RadioGroup',
       componentProps: {
         options: goodsStatusSel,
