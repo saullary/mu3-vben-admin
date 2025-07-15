@@ -53,6 +53,8 @@ const [Modal, modalApi] = useVbenModal({
       modalApi.unlock();
     }
   },
+
+  /** 弹窗显隐变化钩子 */
   async onOpenChange(isOpen: boolean) {
     if (!isOpen) {
       formData.value = undefined;
@@ -73,6 +75,10 @@ const [Modal, modalApi] = useVbenModal({
       delete preData.created_at;
       delete preData.created_t;
       delete preData.user_id;
+
+      if (preData.type !== null) {
+        preData.type += ''
+      }
 
       formData.value = preData;
 

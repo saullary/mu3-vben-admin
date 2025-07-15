@@ -1,5 +1,3 @@
-import type { Dayjs } from 'dayjs';
-
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 
@@ -17,6 +15,22 @@ const shopInfoStatusSel = [
   { label: "正常营业", value: 1 },
   { label: "暂停营业", value: 0 }
 ]
+
+/** 商铺类型 */
+export const shopInfoType = {
+  '1': "商场",
+  '2': "超市"
+} as Record<string, string>
+
+interface ShopInfoSel {
+  label: string;
+  value: string;
+}
+
+const shopInfoTypeSel = Object.keys(shopInfoType).reduce((acc, key) => {
+  acc.push({ label: shopInfoType[key] as string, value: key })
+  return acc
+}, [] as ShopInfoSel[])
 
 
 /** 新增/修改的表单 */
@@ -40,6 +54,15 @@ export function useFormSchema(): VbenFormSchema[] {
     //   },
     //   rules: 'required',
     // },
+    {
+      component: "Select",
+      fieldName: "type",
+      label: '门店类型',
+      componentProps: {
+        options: shopInfoTypeSel
+      },
+      rules: 'selectRequired'
+    },
     {
       component: 'Input',
       fieldName: 'name',
@@ -108,6 +131,15 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
+      fieldName: 'type',
+      label: '门店类型',
+      component: 'Select',
+      componentProps: {
+        allowClear: true,
+        options: shopInfoTypeSel,
+      },
+    },
+    {
       fieldName: 'created_at',
       label: '创建时间',
       component: 'RangePicker',
@@ -173,6 +205,14 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
     {
       field: 'name',
       title: '门店名称',
+    },
+    {
+      field: 'type',
+      title: '门店类型',
+      cellRender: {
+        name: "CodeToStr",
+        props: { dict: shopInfoType }
+      }
     },
     {
       field: 'host_tel',
