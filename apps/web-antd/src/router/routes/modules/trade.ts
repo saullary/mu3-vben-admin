@@ -21,6 +21,14 @@ const routes: RouteRecordRaw[] = [
       },
       {
         meta: {
+          title: '商品分类',
+        },
+        name: 'Classify',
+        path: '/trade/cassify',
+        component: () => import('#/views/trade/classify/list.vue'),
+      },
+      {
+        meta: {
           title: '商品管理',
         },
         name: 'Goods',
