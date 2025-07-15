@@ -10,7 +10,7 @@ import { $t } from '#/locales';
 
 import { useFormSchema, table } from './data';
 
-import { upsertAdmin, listAdmin } from '#/api';
+import { upsertAdmin } from '#/api';
 
 const emit = defineEmits(['success']);
 const formData = ref();

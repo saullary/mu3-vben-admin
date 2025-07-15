@@ -31,7 +31,7 @@ export function useFormSchema(): VbenFormSchema[] {
     {
       component: 'InputNumber',
       fieldName: 'price',
-      label: '售卖价格',
+      label: '售价',
       componentProps: {
         min: 0,
         prefix: '￥',
