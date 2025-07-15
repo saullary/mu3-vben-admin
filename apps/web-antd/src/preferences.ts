@@ -11,6 +11,13 @@ export const overridesPreferences = defineOverridesPreferences({
     name: import.meta.env.VITE_APP_TITLE,
     authPageLayout: 'panel-center',
     enableCheckUpdates: true,
+    layout: 'sidebar-mixed-nav',
+  },
+  sidebar: {
+    collapsed: true,
+  },
+  tabbar: {
+    enable: false,
   },
   logo: {
     source: '/img/logo.webp',
