@@ -8,6 +8,7 @@ import { AuthenticationForgetPassword, z } from '@vben/common-ui';
 import { message } from 'ant-design-vue';
 import supabase from '#/api/core/supabase';
 import { useRouter } from 'vue-router';
+import { getPswHash } from '#/store';
 // import { $t } from '@vben/locales';
 
 defineOptions({ name: 'UpdatePassword' });
@@ -52,7 +53,7 @@ async function handleSubmit(value: Recordable<any>) {
   // console.log('reset email:', value);
   try {
     loading.value = true;
-    await supabase.auth.updateUser({ password: value.psw });
+    await supabase.auth.updateUser({ password: getPswHash(value.psw) });
     message.success('密码重置成功');
     router.push('/auth/login');
   } catch (error) {

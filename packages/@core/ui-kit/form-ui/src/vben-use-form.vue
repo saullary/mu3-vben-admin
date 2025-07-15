@@ -63,7 +63,7 @@ function handleKeyDownEnter(event: KeyboardEvent) {
 
 const handleValuesChangeDebounced = useDebounceFn(async () => {
   state.value.submitOnChange && forward.value.formApi?.validateAndSubmitForm();
-}, 300);
+}, 500);
 
 const valuesCache: Recordable<any> = {};
 
