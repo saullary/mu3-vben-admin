@@ -26,7 +26,15 @@ const routes: RouteRecordRaw[] = [
         name: 'Goods',
         path: '/trade/goods',
         component: () => import('#/views/trade/goods/list.vue'),
-      }
+      },
+      {
+        meta: {
+          title: '快递记录',
+        },
+        name: 'deliver_log',
+        path: '/trade/deliver',
+        component: () => import('#/views/demos/deliver/list.vue'),
+      },
     ],
   },
 ];
