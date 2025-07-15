@@ -2,6 +2,7 @@ import { z, type VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
 import { listAdmin, queryAdmin } from '#/api';
 import { $t } from '#/locales';
+import { DRangePickerProps } from '#/utils/date';
 
 export namespace UserInfoApi {
   export interface UserInfo {
@@ -68,6 +69,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
     },
     {
       component: 'RangePicker',
+      componentProps: DRangePickerProps,
       fieldName: 'created_at',
       label: $t('system.role.createTime'),
     },

@@ -1,16 +1,14 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import { z } from '#/adapter/form';
-import { DRangePickerProps } from '#/utils';
+import { DRangePickerProps } from '#/utils/date';
 
-
-export const table = "shop_goods"
+export const table = 'shop_goods';
 
 const goodsStatusSel = [
-  { label: "上架", value: 1 },
-  { label: "下架", value: 0 }
-]
-
+  { label: '上架', value: 1 },
+  { label: '下架', value: 0 },
+];
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
@@ -37,9 +35,9 @@ export function useFormSchema(): VbenFormSchema[] {
       componentProps: {
         min: 0,
         prefix: '￥',
-        precision: 2
+        precision: 2,
       },
-      rules: 'required'
+      rules: 'required',
     },
     {
       component: 'Textarea',
@@ -53,7 +51,7 @@ export function useFormSchema(): VbenFormSchema[] {
       componentProps: {
         min: 0,
         prefix: '￥',
-        precision: 2
+        precision: 2,
       },
     },
     // {
@@ -72,9 +70,9 @@ export function useFormSchema(): VbenFormSchema[] {
       componentProps: {
         min: 0,
         addonAfter: '天',
-        precision: 0
+        precision: 0,
       },
-      rules: 'required'
+      rules: 'required',
     },
     {
       fieldName: 'status',
@@ -147,9 +145,9 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
         name: 'CellTag',
         options: [
           { label: '上架', value: 1, color: 'hsl( var(--primary) )' },
-          { label: '下架', value: 0, color: 'hsl( var(--warning) )' }
-        ]
-      }
+          { label: '下架', value: 0, color: 'hsl( var(--warning) )' },
+        ],
+      },
     },
     {
       field: 'createTime',
