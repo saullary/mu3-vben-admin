@@ -136,18 +136,6 @@ setupVbenVxeTable({
       },
     });
 
-    /** code转str */
-    vxeUI.renderer.add("CodeToStr", {
-      renderTableDefault({ props }, { row, column }) {
-        const value = get(row, column.field);
-        const guide = props?.dict ?? {}
-        return h(
-          "span",
-          guide[value] ?? value
-        );
-      }
-    })
-
     /**
      * 注册表格的操作按钮渲染器
      */

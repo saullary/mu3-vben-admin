@@ -7,10 +7,6 @@ import { z } from '#/adapter/form';
 
 export const table = "shop_info"
 
-export enum ShopInfoStatusEnum {
-  "正常营业" = 1,
-  "暂停营业" = 0
-}
 const shopInfoStatusSel = [
   { label: "正常营业", value: 1 },
   { label: "暂停营业", value: 0 }
@@ -18,19 +14,26 @@ const shopInfoStatusSel = [
 
 /** 商铺类型 */
 export const shopInfoType = {
-  '1': "商场",
-  '2': "超市"
-} as Record<string, string>
+  1: "商场",
+  2: "超市"
+} as Record<number, string>
 
-interface ShopInfoSel {
-  label: string;
-  value: string;
+
+const shopInfoTypeSel = [] as Record<string, string>[]
+const findShopType = [] as  {label: string, value: number }[]
+
+for (const key of Object.keys(shopInfoType)) {
+  shopInfoTypeSel.push({
+    label: shopInfoType[+key] as string,
+    value: key
+  })
+
+  findShopType.push({
+    label: shopInfoType[+key] as string,
+    value: +key
+  })
 }
 
-const shopInfoTypeSel = Object.keys(shopInfoType).reduce((acc, key) => {
-  acc.push({ label: shopInfoType[key] as string, value: key })
-  return acc
-}, [] as ShopInfoSel[])
 
 
 /** 新增/修改的表单 */
@@ -210,8 +213,8 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       field: 'type',
       title: '门店类型',
       cellRender: {
-        name: "CodeToStr",
-        props: { dict: shopInfoType }
+        name: "CellTag",
+        options: findShopType
       }
     },
     {
@@ -225,7 +228,13 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
     {
       field: 'status',
       title: '开启状态',
-      slots: { default: 'status' }
+      cellRender: {
+        name: "CellTag",
+        options: [
+          { color: 'var(--vxe-ui-table-cell-negative-color)', label: '停业中', value: 0 },
+          { color: 'var(--vxe-ui-font-primary-color)', label: '营业中', value: 1 },
+        ]
+      }
     },
     {
       field: 'createTime',

@@ -4,11 +4,11 @@ import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import { Page, useVbenModal } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 
-import { Button, message, Popconfirm, Tag } from 'ant-design-vue';
+import { Button, message, Popconfirm } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
-import { useGridColumns, useGridFormSchema, table, ShopInfoStatusEnum } from './data';
+import { useGridColumns, useGridFormSchema, table } from './data';
 import Form from './form.vue';
 import { queryAdmin, upsertAdmin } from '#/api';
 
@@ -93,12 +93,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
           </template>
           新增
         </Button>
-      </template>
-
-      <template #status="{ row }">
-        <Tag v-if="row.status === ShopInfoStatusEnum['正常营业']" color="var(--vxe-ui-font-primary-color)">营业中</Tag>
-        <Tag v-else-if="row.status === ShopInfoStatusEnum['暂停营业']" color="var(--vxe-ui-table-cell-negative-color)">停业中</Tag>
-        <Tag v-else>未知</Tag>
       </template>
 
       <template #actions="{ row } ">
