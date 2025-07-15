@@ -7,19 +7,24 @@ import type {
 import { Page } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import kd100 from './comp/kd100.js';
+import kd100 from './comp/kd100';
 import modalResult from './modal-result.vue';
 
-import { Button, message } from 'ant-design-vue';
+import { message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
-import { useColumns } from './data';
+import { useColumns, useGridFormSchema } from './data';
 import { queryAdmin, upsertAdmin } from '#/api';
 
 const tableName = 'deliver_log';
 
 const [Grid, gridApi] = useVbenVxeGrid({
+  formOptions: {
+    schema: useGridFormSchema(),
+    submitOnChange: true,
+  },
+
   gridOptions: {
     columns: useColumns(onActionClick),
     height: 'auto',
