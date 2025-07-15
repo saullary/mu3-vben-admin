@@ -80,9 +80,15 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: queryAdmin(table),
-        querySuccess: (...res) => {
-          console.log('查询结果', res);
-        },
+      },
+      sort: true,
+    },
+    sortConfig: {
+      remote: true,
+      multiple: true,
+      defaultSort: {
+        field: 'seq',
+        order: 'desc',
       },
     },
     rowConfig: {
@@ -96,10 +102,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
     },
   } as VxeTableGridOptions<any>,
 });
-
-function sortItem(row: any, index: number, type: 'down' | 'up') {
-  console.log('需要排序', row);
-}
 </script>
 
 <template>
@@ -115,49 +117,6 @@ function sortItem(row: any, index: number, type: 'down' | 'up') {
           新增
         </Button>
       </template>
-
-      <!-- 排序 -->
-      <template #orderCol="{ row, rowIndex }">
-        <div class="order-class">
-          <IconifyIcon
-            class="up-icon"
-            :rotate="-45"
-            icon="ant-design:swap-right-outlined"
-            @click="sortItem(row, rowIndex, 'up')"
-          />
-          <IconifyIcon
-            class="down-icon"
-            :rotate="45"
-            icon="ant-design:swap-right-outlined"
-            @click="sortItem(row, rowIndex, 'down')"
-          />
-        </div>
-      </template>
     </Grid>
   </Page>
 </template>
-
-<style lang="scss" scoped>
-.order-class {
-  display: flex;
-  justify-content: center;
-
-  .down-icon,
-  .up-icon {
-    font-size: 30px;
-    cursor: pointer;
-
-    &:hover {
-      transform: scale(1.2);
-    }
-  }
-
-  .up-icon {
-    color: green;
-  }
-
-  .down-icon {
-    color: red;
-  }
-}
-</style>

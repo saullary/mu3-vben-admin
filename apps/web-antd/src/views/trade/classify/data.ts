@@ -22,6 +22,16 @@ export function useFormSchema(): VbenFormSchema[] {
       label: '分类名称',
       rules: 'required',
     },
+    {
+      component: 'InputNumber',
+      fieldName: 'seq',
+      label: '排序',
+      rules: 'required',
+      componentProps: {
+        defaultValue: 1000,
+        precision: 0,
+      },
+    },
   ];
 }
 
@@ -62,11 +72,9 @@ export function useGridColumns<T = any>(
       formatter: 'formatDateTime',
     },
     {
-      title: '排序',
-      align: 'center',
-      slots: {
-        default: 'orderCol',
-      },
+      title: '排序值',
+      field: 'seq',
+      sortable: true,
     },
     {
       title: '操作',
