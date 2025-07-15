@@ -1,6 +1,7 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { z } from '#/adapter/form';
+import { DRangePickerProps } from '#/utils/date';
 
 export const table = 'shop_goods';
 
@@ -95,6 +96,12 @@ export function useGridFormSchema(): VbenFormSchema[] {
         options: goodsStatusSel,
       },
     },
+    {
+      fieldName: 'created_at',
+      label: '创建时间',
+      component: 'RangePicker',
+      componentProps: DRangePickerProps,
+    },
   ];
 }
 
@@ -131,9 +138,9 @@ export function useGridColumns<T = any>(
         name: 'CellTag',
         options: [
           { label: '上架', value: 1, color: 'green' },
-          { label: '下架', value: 0, color: 'red' }
-        ]
-      }
+          { label: '下架', value: 0, color: 'red' },
+        ],
+      },
     },
     {
       field: 'createTime',
@@ -141,17 +148,17 @@ export function useGridColumns<T = any>(
       formatter: 'formatDateTime',
     },
     {
-      title: "操作",
-      field: "operation",
+      title: '操作',
+      field: 'operation',
       align: 'center',
       cellRender: {
         name: 'CellOperation',
         attrs: {
           nameField: 'name',
-          nameTitle: "商品",
-          onClick: onActionClick
-        }
-      }
-    }
+          nameTitle: '商品',
+          onClick: onActionClick,
+        },
+      },
+    },
   ];
 }

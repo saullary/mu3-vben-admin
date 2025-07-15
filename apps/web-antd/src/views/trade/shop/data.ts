@@ -1,13 +1,14 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
+import { DRangePickerProps } from '#/utils/date';
 
 import { z } from '#/adapter/form';
 export const table = 'shop_info';
 
 const shopInfoStatusSel = [
-  { label: "营业中", value: 1 },
-  { label: "已暂停", value: 0 }
-]
+  { label: '营业中', value: 1 },
+  { label: '已暂停', value: 0 },
+];
 
 /** 商铺类型 */
 export const shopInfoType = {
@@ -128,6 +129,12 @@ export function useGridFormSchema(): VbenFormSchema[] {
         options: shopInfoTypeSel,
       },
     },
+    {
+      fieldName: 'created_at',
+      label: '创建时间',
+      component: 'RangePicker',
+      componentProps: DRangePickerProps,
+    },
   ];
 }
 
@@ -169,8 +176,8 @@ export function useGridColumns<T = any>(
         options: [
           { color: 'red', label: '停业中', value: 0 },
           { color: 'green', label: '营业中', value: 1 },
-        ]
-      }
+        ],
+      },
     },
     {
       field: 'createTime',
@@ -178,17 +185,17 @@ export function useGridColumns<T = any>(
       formatter: 'formatDateTime',
     },
     {
-      title: "操作",
-      field: "operation",
+      title: '操作',
+      field: 'operation',
       align: 'center',
       cellRender: {
         name: 'CellOperation',
         attrs: {
           onClick: onActionClick,
           nameField: 'name',
-          nameTitle: '门店'
-        }
-      }
-    }
+          nameTitle: '门店',
+        },
+      },
+    },
   ];
 }
