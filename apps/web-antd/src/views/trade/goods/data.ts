@@ -12,23 +12,16 @@ const goodsStatusSel = [
 ];
 
 const goodsTypeSel = [] as { label: string; value: string }[];
-const goodsTypeSelNum = [] as { label: string; value: number }[];
-
-function getTypeSel() {
-  return listAdmin('shop_goods_type').then((res) => {
-    const guide = (res ?? []).map((item) => ({
-      label: item.name,
-      value: item.id + '',
-    }));
-    goodsTypeSelNum.push(
-      ...guide.map((item) => ({ label: item.label, value: +item.value })),
-    );
-    goodsTypeSel.push(...guide);
-  });
-}
 
 /** 加载配置数据 */
-await getTypeSel();
+
+await listAdmin('shop_goods_type').then((res) => {
+  const guide = (res ?? []).map((item: { name: string; id: number }) => ({
+    label: item.name,
+    value: item.id + '',
+  }));
+  goodsTypeSel.push(...guide);
+});
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
@@ -149,7 +142,10 @@ export function useGridColumns<T = any>(
       title: '商品分类',
       cellRender: {
         name: 'CellTag',
-        options: goodsTypeSelNum,
+        props: {
+          loose: true,
+        },
+        options: goodsTypeSel,
       },
     },
     {

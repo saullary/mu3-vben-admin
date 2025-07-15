@@ -17,17 +17,11 @@ export const shopInfoType = {
 } as Record<number, string>;
 
 const shopInfoTypeSel = [] as Record<string, string>[];
-const findShopType = [] as { label: string; value: number }[];
 
 for (const key of Object.keys(shopInfoType)) {
   shopInfoTypeSel.push({
     label: shopInfoType[+key] as string,
     value: key,
-  });
-
-  findShopType.push({
-    label: shopInfoType[+key] as string,
-    value: +key,
   });
 }
 
@@ -157,7 +151,10 @@ export function useGridColumns<T = any>(
       title: '门店类型',
       cellRender: {
         name: 'CellTag',
-        options: findShopType,
+        props: {
+          loose: true,
+        },
+        options: shopInfoTypeSel,
       },
     },
     {
