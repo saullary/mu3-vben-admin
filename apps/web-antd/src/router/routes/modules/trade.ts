@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
         },
         name: 'deliver_log',
         path: '/trade/deliver',
-        component: () => import('#/views/demos/deliver/list.vue'),
+        component: () => import('#/views/trade/deliver/list.vue'),
       },
     ],
   },
