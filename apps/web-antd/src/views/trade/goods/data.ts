@@ -145,7 +145,7 @@ export function useGridColumns<T = any>(
     {
       field: 'createTime',
       title: '创建时间',
-      formatter: 'formatDateTime',
+      formatter: 'created_at',
     },
     {
       title: '操作',
