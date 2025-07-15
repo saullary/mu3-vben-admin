@@ -1,16 +1,17 @@
 <script lang="ts" setup>
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions, OnActionClickParams } from '#/adapter/vxe-table';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 
-import { Button, message, Popconfirm } from 'ant-design-vue';
+import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
 import { useGridColumns, useGridFormSchema, table } from './data';
 import Form from './form.vue';
 import { queryAdmin, upsertAdmin } from '#/api';
+import { $t } from '@vben/locales';
 
 const [FormModal, formModalApi] = useVbenModal({
   connectedComponent: Form,
@@ -29,17 +30,15 @@ function handleEdit(row?: any) {
 
 /** 删除门店 */
 async function handleDelete(row: any) {
+
   const hideLoading = message.loading({
-    content: `正在删除${row.name}`,
+    content: $t('ui.actionMessage.deleting', [row.name]),
+    duration: 0,
     key: 'action_process_msg',
-  })
+  });
 
   try {
-    console.log('删除门店', row);
-    gridApi.setLoading(true)
-
     await upsertAdmin(table, null, row.id)
-
     message.success({
       content: `${row.name}删除成功`,
       key: 'action_process_msg',
@@ -48,7 +47,19 @@ async function handleDelete(row: any) {
     onRefresh();
   } finally {
     hideLoading();
-    gridApi.setLoading(false)
+  }
+}
+
+function onActionClick({ code, row } : OnActionClickParams<any>) {
+  switch (code) {
+    case 'delete': {
+      handleDelete(row);      
+      break;
+    }
+    case 'edit': {
+      handleEdit(row);
+      break;
+    }
   }
 }
 
@@ -60,7 +71,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
 
   // 表格配置
   gridOptions: {
-    columns: useGridColumns(),
+    columns: useGridColumns(onActionClick),
     height: 'auto',
     keepSource: true,
     proxyConfig: {
@@ -95,24 +106,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
         </Button>
       </template>
 
-      <template #actions="{ row } ">
-        <Button type="link" @click="handleEdit(row)">
-          <template #icon><IconifyIcon icon="lucide:edit" /></template>
-          编辑
-        </Button>
-
-        <Popconfirm
-          title="确定删除吗？"
-          @confirm="handleDelete(row)"          
-        >
-          <Button danger type="link">
-            <template #icon>
-              <IconifyIcon icon="lucide:trash" />
-            </template>
-            <span>删除</span>
-          </Button>
-        </Popconfirm>
-      </template>
     </Grid>
   </Page>
 </template>
