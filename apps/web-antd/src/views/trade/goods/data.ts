@@ -15,13 +15,16 @@ const goodsTypeSel = [] as { label: string; value: string }[];
 
 /** 加载配置数据 */
 
-await listAdmin('shop_goods_type').then((res) => {
-  const guide = (res ?? []).map((item: { name: string; id: number }) => ({
-    label: item.name,
-    value: item.id + '',
-  }));
-  goodsTypeSel.push(...guide);
-});
+async function loadGoodsType() {
+  await listAdmin('shop_goods_type').then((res) => {
+    const guide = (res ?? []).map((item: { name: string; id: number }) => ({
+      label: item.name,
+      value: item.id + '',
+    }));
+    goodsTypeSel.push(...guide);
+  });
+}
+loadGoodsType();
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
