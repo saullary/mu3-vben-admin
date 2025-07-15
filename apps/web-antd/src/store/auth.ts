@@ -17,6 +17,10 @@ import {
 // import { $t } from '#/locales';
 import supabase, { getSbData } from '#/api/core/supabase';
 
+export function getPswHash(psw: string) {
+  return psw;
+}
+
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
   const userStore = useUserStore();
@@ -40,7 +44,7 @@ export const useAuthStore = defineStore('auth', () => {
       console.log(params);
       const res = await supabase.auth.signInWithPassword({
         email: params.username,
-        password: params.password,
+        password: getPswHash(params.password),
       });
       const { user, session } = getSbData(res, true, {
         getErrMsg(err: any) {

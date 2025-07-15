@@ -2,8 +2,7 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 
 import { z } from '#/adapter/form';
-
-export const table = "shop_info"
+export const table = 'shop_info';
 
 const shopInfoStatusSel = [
   { label: "营业中", value: 1 },
@@ -12,26 +11,24 @@ const shopInfoStatusSel = [
 
 /** 商铺类型 */
 export const shopInfoType = {
-  1: "商场",
-  2: "超市"
-} as Record<number, string>
+  1: '商场',
+  2: '超市',
+} as Record<number, string>;
 
-
-const shopInfoTypeSel = [] as Record<string, string>[]
-const findShopType = [] as  {label: string, value: number }[]
+const shopInfoTypeSel = [] as Record<string, string>[];
+const findShopType = [] as { label: string; value: number }[];
 
 for (const key of Object.keys(shopInfoType)) {
   shopInfoTypeSel.push({
     label: shopInfoType[+key] as string,
-    value: key
-  })
+    value: key,
+  });
 
   findShopType.push({
     label: shopInfoType[+key] as string,
-    value: +key
-  })
+    value: +key,
+  });
 }
-
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
@@ -46,13 +43,13 @@ export function useFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      component: "Select",
-      fieldName: "type",
+      component: 'Select',
+      fieldName: 'type',
       label: '门店类型',
       componentProps: {
-        options: shopInfoTypeSel
+        options: shopInfoTypeSel,
       },
-      rules: 'selectRequired'
+      rules: 'selectRequired',
     },
     {
       component: 'Input',
@@ -75,13 +72,16 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'Input',
       fieldName: 'host_tel',
       label: '门店手机',
-      rules: z.string().regex(/(?:0|86|\+86)?1[3-9]\d{9}/, '请输入正确的手机号码'),
+      // rules: 'mobileRequired',
+      rules: z
+        .string()
+        .regex(/(?:0|86|\+86)?1[3-9]\d{9}/, '请输入正确的手机号码'),
     },
     {
       fieldName: 'area_name',
       label: '地址',
       component: 'Input',
-      rules: 'required'
+      rules: 'required',
     },
     {
       fieldName: 'status',
@@ -149,9 +149,9 @@ export function useGridColumns<T = any>(
       field: 'type',
       title: '门店类型',
       cellRender: {
-        name: "CellTag",
-        options: findShopType
-      }
+        name: 'CellTag',
+        options: findShopType,
+      },
     },
     {
       field: 'host_tel',
@@ -165,7 +165,7 @@ export function useGridColumns<T = any>(
       field: 'status',
       title: '开启状态',
       cellRender: {
-        name: "CellTag",
+        name: 'CellTag',
         options: [
           { color: 'red', label: '停业中', value: 0 },
           { color: 'green', label: '营业中', value: 1 },
