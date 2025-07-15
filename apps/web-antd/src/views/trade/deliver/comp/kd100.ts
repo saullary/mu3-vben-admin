@@ -121,10 +121,10 @@ export const kdStates = [
 ];
 
 export default {
-  getKdCompany(code) {
+  getKdCompany(code: string) {
     return kdCompanys.find((it) => it.code == code)?.name || code;
   },
-  getKdState(code) {
+  getKdState(code: string) {
     return kdStates.find((it) => it.code == code)?.name || code;
   },
 };
