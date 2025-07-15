@@ -1,5 +1,5 @@
 import type { VbenFormSchema } from '#/adapter/form';
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { z } from '#/adapter/form';
 import { DRangePickerProps } from '#/utils/date';
 
@@ -54,15 +54,6 @@ export function useFormSchema(): VbenFormSchema[] {
         precision: 2,
       },
     },
-    // {
-    //   component: 'DatePicker',
-    //   label: '保质期',
-    //   fieldName: 'shelf_day',
-    //   componentProps: {
-    //     valueFormat: 'YYYY-MM-DD',
-    //   },
-    //   rules: 'selectRequired'
-    // },
     {
       component: 'InputNumber',
       label: '售卖天数',
@@ -105,21 +96,23 @@ export function useGridFormSchema(): VbenFormSchema[] {
         options: goodsStatusSel,
       },
     },
-    // {
-    //   fieldName: 'created_at',
-    //   label: '创建时间',
-    //   component: 'RangePicker',
-    //   componentProps: DRangePickerProps,
-    // },
+    {
+      fieldName: 'created_at',
+      label: '创建时间',
+      component: 'RangePicker',
+      componentProps: DRangePickerProps,
+    },
   ];
 }
 
 /** 列表的字段 */
-export function useGridColumns(): VxeTableGridOptions['columns'] {
+export function useGridColumns<T = any>(
+  onActionClick: OnActionClickFn<T>,
+): VxeTableGridOptions['columns'] {
   return [
     {
       field: 'id',
-      title: '编号',
+      title: 'ID',
       fixed: 'left',
     },
     {
@@ -144,8 +137,8 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       cellRender: {
         name: 'CellTag',
         options: [
-          { label: '上架', value: 1, color: 'hsl( var(--primary) )' },
-          { label: '下架', value: 0, color: 'hsl( var(--warning) )' },
+          { label: '上架', value: 1, color: 'green' },
+          { label: '下架', value: 0, color: 'red' },
         ],
       },
     },
@@ -156,9 +149,16 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
     },
     {
       title: '操作',
-      width: 200,
-      fixed: 'right',
-      slots: { default: 'actions' },
+      field: 'operation',
+      align: 'center',
+      cellRender: {
+        name: 'CellOperation',
+        attrs: {
+          nameField: 'name',
+          nameTitle: '商品',
+          onClick: onActionClick,
+        },
+      },
     },
   ];
 }
