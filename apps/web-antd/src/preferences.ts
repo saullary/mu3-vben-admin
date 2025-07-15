@@ -29,4 +29,8 @@ export const overridesPreferences = defineOverridesPreferences({
   theme: {
     mode: 'auto',
   },
+  widget: {
+    languageToggle: false,
+    notification: false,
+  },
 });
