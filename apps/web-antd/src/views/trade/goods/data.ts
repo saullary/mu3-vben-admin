@@ -2,6 +2,7 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { z } from '#/adapter/form';
 import { DRangePickerProps } from '#/utils/date';
+import { listAdmin } from '#/api';
 
 export const table = 'shop_goods';
 
@@ -9,6 +10,18 @@ const goodsStatusSel = [
   { label: '上架', value: 1 },
   { label: '下架', value: 0 },
 ];
+
+const goodsTypeSel = [] as { label: string; value: string }[];
+
+/** 加载配置数据 */
+
+await listAdmin('shop_goods_type').then((res) => {
+  const guide = (res ?? []).map((item: { name: string; id: number }) => ({
+    label: item.name,
+    value: item.id + '',
+  }));
+  goodsTypeSel.push(...guide);
+});
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
@@ -20,6 +33,15 @@ export function useFormSchema(): VbenFormSchema[] {
       dependencies: {
         triggerFields: [''],
         show: () => false,
+      },
+    },
+    {
+      component: 'Select',
+      fieldName: 'type',
+      label: '商品类型',
+      rules: 'selectRequired',
+      componentProps: {
+        options: goodsTypeSel,
       },
     },
     {
@@ -114,6 +136,17 @@ export function useGridColumns<T = any>(
       field: 'id',
       title: 'ID',
       fixed: 'left',
+    },
+    {
+      field: 'type',
+      title: '商品分类',
+      cellRender: {
+        name: 'CellTag',
+        props: {
+          loose: true,
+        },
+        options: goodsTypeSel,
+      },
     },
     {
       field: 'name',

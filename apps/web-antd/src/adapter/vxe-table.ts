@@ -96,11 +96,27 @@ setupVbenVxeTable({
           { color: 'success', label: $t('common.enabled'), value: 1 },
           { color: 'error', label: $t('common.disabled'), value: 0 },
         ];
-        const tagItem = tagOptions.find((item) => item.value === value);
+
+        let tagItem = null;
+        const localProps = { ...props };
+
+        // 宽松模式,  解决 select组件的value必须为字符串, 接口返回数字
+        if (localProps?.loose) {
+          if (value !== void 1 && value !== null) {
+            tagItem = tagOptions.find((item) => item.value == value);
+          }
+          // 直接删除props属性, 会导致后续渲染异常
+          delete localProps.loose;
+        }
+        // 严格匹配
+        else {
+          tagItem = tagOptions.find((item) => item.value === value);
+        }
+
         return h(
           Tag,
           {
-            ...props,
+            ...localProps,
             ...objectOmit(tagItem ?? {}, ['label']),
           },
           { default: () => tagItem?.label ?? value },

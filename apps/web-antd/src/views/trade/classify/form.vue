@@ -29,19 +29,6 @@ const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
 });
 
-/** 获取当前数据库的数据总量, 作为排序索引 */
-function getMaxSortIndex() {
-  return queryAdmin(table)(
-    {
-      page: {
-        currentPage: 1,
-        pageSize: 1,
-      },
-    },
-    {},
-  ).then((res) => res.total);
-}
-
 const [Modal, modalApi] = useVbenModal({
   async onConfirm() {
     const { valid } = await formApi.validate();
@@ -53,8 +40,6 @@ const [Modal, modalApi] = useVbenModal({
 
     // 提交表单
     const data = await formApi.getValues();
-
-    data['seq'] = await getMaxSortIndex();
 
     const id = data?.id;
     delete data.id;
