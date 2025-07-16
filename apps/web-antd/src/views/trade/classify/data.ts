@@ -1,6 +1,8 @@
 import { z, type VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { DRangePickerProps } from '#/utils/date';
+import { queryAdmin } from '#/api';
+import { table as shopTab } from '../shop/data';
 
 export const table = 'shop_goods_type';
 
@@ -15,6 +17,17 @@ export function useFormSchema(): VbenFormSchema[] {
         triggerFields: [''],
         show: () => false,
       },
+    },
+    {
+      component: 'ApiTreeSelect',
+      componentProps: {
+        api: queryAdmin(shopTab, {
+          _select: 'id,name',
+        }),
+      },
+      fieldName: 'shop_id',
+      label: '门店',
+      rules: 'selectRequired',
     },
     {
       component: 'Input',
@@ -38,6 +51,16 @@ export function useFormSchema(): VbenFormSchema[] {
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
+      component: 'ApiTreeSelect',
+      componentProps: {
+        api: queryAdmin(shopTab, {
+          _select: 'id,name',
+        }),
+      },
+      fieldName: 'shop_id',
+      label: '门店',
+    },
+    {
       fieldName: 'name',
       label: '分类名称',
       component: 'Input',
@@ -60,6 +83,12 @@ export function useGridColumns<T = any>(
       field: 'id',
       title: 'ID',
       fixed: 'left',
+      width: 90,
+    },
+    {
+      field: 'shop_id',
+      title: '店铺ID',
+      slots: { default: 'shop_id' },
     },
     {
       field: 'name',

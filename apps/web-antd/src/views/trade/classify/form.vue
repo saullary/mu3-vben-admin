@@ -67,21 +67,7 @@ const [Modal, modalApi] = useVbenModal({
     }
     modalApi.lock();
     try {
-      const preData = { ...data };
-
-      if (!preData) {
-        return;
-      }
-
-      delete preData.created_at;
-      delete preData.created_t;
-      delete preData.user_id;
-
-      if (preData.type !== null) {
-        preData.type += '';
-      }
-
-      formData.value = preData;
+      formData.value = data;
 
       await formApi.setValues(formData.value);
     } finally {

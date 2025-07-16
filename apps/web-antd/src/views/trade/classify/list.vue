@@ -13,8 +13,21 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
 import { useGridColumns, useGridFormSchema, table } from './data';
 import Form from './form.vue';
-import { queryAdmin, upsertAdmin } from '#/api';
+import { listAdmin, queryAdmin, upsertAdmin } from '#/api';
 import { $t } from '@vben/locales';
+import { codeAndName } from '#/utils/table';
+import { onMounted, ref } from 'vue';
+import { table as shopTab } from '../shop/data';
+
+const shopArr = ref([]);
+
+onMounted(() => {
+  listAdmin(shopTab, {
+    _select: 'id,name',
+  }).then((res) => {
+    shopArr.value = res;
+  });
+});
 
 const [FormModal, formModalApi] = useVbenModal({
   connectedComponent: Form,
@@ -116,6 +129,11 @@ const [Grid, gridApi] = useVbenVxeGrid({
           </template>
           新增
         </Button>
+      </template>
+
+      <!-- 所属店铺 -->
+      <template #shop_id="{ row }">
+        {{ codeAndName(row.shop_id, shopArr) }}
       </template>
     </Grid>
   </Page>
