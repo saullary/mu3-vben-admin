@@ -46,7 +46,7 @@ const [Modal, modalApi] = useVbenModal({
 
     try {
       // 等待服务端响应
-      await upsertAdmin(table, data, id);
+      await upsertAdmin(table, data, id, modalApi.getData());
       // 关闭并提示
       await modalApi.close();
       emit('success');
@@ -74,14 +74,6 @@ const [Modal, modalApi] = useVbenModal({
 
       if (!preData) {
         return;
-      }
-
-      delete preData.created_at;
-      delete preData.created_t;
-      delete preData.user_id;
-
-      if (preData.type !== null) {
-        preData.type += '';
       }
 
       formData.value = preData;
