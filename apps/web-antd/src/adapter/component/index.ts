@@ -162,6 +162,8 @@ async function initComponentAdapter() {
         modelPropName: 'value',
         optionsPropName: 'treeData',
         visibleEvent: 'onVisibleChange',
+        labelField: 'name',
+        valueField: 'id',
       },
     ),
     AutoComplete,

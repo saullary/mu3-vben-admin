@@ -45,8 +45,6 @@ export function useFormSchema(): VbenFormSchema[] {
           _select: 'id,name',
         }),
         class: 'w-full',
-        labelField: 'name',
-        valueField: 'id',
       },
       fieldName: 'role_id',
       label: '角色',

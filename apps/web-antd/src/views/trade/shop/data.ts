@@ -42,8 +42,6 @@ export function useFormSchema(): VbenFormSchema[] {
       componentProps: {
         api: () => {},
         class: 'w-full',
-        labelField: 'name',
-        valueField: 'id',
       },
       fieldName: 'type',
       label: '商品类型',
