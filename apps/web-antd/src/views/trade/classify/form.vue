@@ -10,7 +10,7 @@ import { $t } from '#/locales';
 
 import { useFormSchema, table } from './data';
 
-import { upsertAdmin, listAdmin, queryAdmin } from '#/api';
+import { upsertAdmin } from '#/api';
 
 const emit = defineEmits(['success']);
 const formData = ref();
@@ -41,12 +41,9 @@ const [Modal, modalApi] = useVbenModal({
     // 提交表单
     const data = await formApi.getValues();
 
-    const id = data?.id;
-    delete data.id;
-
     try {
       // 等待服务端响应
-      await upsertAdmin(table, data, id);
+      await upsertAdmin(table, data, data?.id, modalApi.getData());
       // 关闭并提示
       await modalApi.close();
       emit('success');
