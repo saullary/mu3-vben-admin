@@ -11,7 +11,7 @@ import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
-import { useGridColumns, useGridFormSchema, table } from './data';
+import { useGridColumns, useGridFormSchema, table, shopInfoType } from './data';
 import Form from './form.vue';
 import { queryAdmin, upsertAdmin } from '#/api';
 import { $t } from '@vben/locales';
@@ -108,6 +108,8 @@ const [Grid, gridApi] = useVbenVxeGrid({
           新增
         </Button>
       </template>
+
+      <template #type="{ row }">{{ shopInfoType[row.type] }}</template>
     </Grid>
   </Page>
 </template>

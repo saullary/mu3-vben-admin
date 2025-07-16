@@ -38,13 +38,15 @@ export function useFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      component: 'Select',
-      fieldName: 'type',
-      label: '门店类型',
+      component: 'ApiTreeSelect',
       componentProps: {
-        options: shopInfoTypeSel,
+        api: () => {},
+        class: 'w-full',
+        labelField: 'name',
+        valueField: 'id',
       },
-      rules: 'selectRequired',
+      fieldName: 'type',
+      label: '商品类型',
     },
     {
       component: 'Input',
@@ -149,12 +151,8 @@ export function useGridColumns<T = any>(
     {
       field: 'type',
       title: '门店类型',
-      cellRender: {
-        name: 'CellTag',
-        props: {
-          loose: true,
-        },
-        options: shopInfoTypeSel,
+      slots: {
+        default: 'type',
       },
     },
     {

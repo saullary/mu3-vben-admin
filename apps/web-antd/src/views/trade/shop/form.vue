@@ -10,7 +10,7 @@ import { $t } from '#/locales';
 
 import { useFormSchema, table } from './data';
 
-import { upsertAdmin, listAdmin } from '#/api';
+import { upsertAdmin } from '#/api';
 
 const emit = defineEmits(['success']);
 const formData = ref();
@@ -67,13 +67,7 @@ const [Modal, modalApi] = useVbenModal({
     }
     modalApi.lock();
     try {
-      const preData = { ...data };
-
-      if (!preData) {
-        return;
-      }
-
-      formData.value = preData;
+      formData.value = data;
 
       await formApi.setValues(formData.value);
     } finally {
