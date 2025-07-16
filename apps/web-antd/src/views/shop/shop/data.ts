@@ -47,6 +47,14 @@ export function useFormSchema(): VbenFormSchema[] {
       rules: 'required',
     },
     {
+      component: 'UploadImg',
+      fieldName: 'logos',
+      label: '门店logo',
+      componentProps: {
+        maxCount: 2,
+      },
+    },
+    {
       component: 'Input',
       fieldName: 'name',
       label: '门店名称',
