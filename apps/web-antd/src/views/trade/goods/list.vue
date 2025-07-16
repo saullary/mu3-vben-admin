@@ -15,19 +15,16 @@ import { useGridColumns, useGridFormSchema, table } from './data';
 import Form from './form.vue';
 import { queryAdmin, upsertAdmin, listAdmin } from '#/api';
 import { onMounted, ref } from 'vue';
+import { codeAndName } from '#/utils/table';
 
-type TypeObj = Record<string, any>;
-
-const goodsTypeCodeToName = ref<TypeObj>({});
+type TOptArr = { id: number; name: string };
+const goodsTypeCodeToName = ref<TOptArr[]>([]);
 
 onMounted(() => {
   listAdmin('shop_goods_type', {
     _select: 'id,name',
-  }).then((res: { id: number; name: string }[]) => {
-    goodsTypeCodeToName.value = res.reduce((pre, cur) => {
-      pre[cur.id] = cur.name;
-      return pre;
-    }, {} as TypeObj);
+  }).then((res: TOptArr[]) => {
+    goodsTypeCodeToName.value = res;
   });
 });
 
@@ -123,8 +120,23 @@ const [Grid, gridApi] = useVbenVxeGrid({
         </Button>
       </template>
 
+      <!-- 商品分类 -->
       <template #type="{ row }">
-        <span>{{ goodsTypeCodeToName[row.type] }}</span>
+        {{ codeAndName(row.type, goodsTypeCodeToName) }}
+      </template>
+
+      <!-- 商品价格 -->
+      <template #price="{ row }">
+        <!-- 售价 -->
+        {{ row.price }}
+
+        <!-- 原价 -->
+        <template v-if="row.price_old">
+          <span class="mx-1">/</span>
+          <span class="text-th text-[#999] line-through">
+            {{ row.price_old }}
+          </span>
+        </template>
       </template>
     </Grid>
   </Page>

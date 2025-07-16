@@ -141,10 +141,11 @@ export function useGridColumns<T = any>(
       field: 'id',
       title: 'ID',
       fixed: 'left',
+      width: 80,
     },
     {
       field: 'type',
-      title: '商品分类',
+      title: '分类ID',
       slots: { default: 'type' },
     },
     {
@@ -153,11 +154,8 @@ export function useGridColumns<T = any>(
     },
     {
       field: 'price',
-      title: '售价',
-    },
-    {
-      field: 'price_old',
-      title: '原价',
+      title: '售价/原价',
+      slots: { default: 'price' },
     },
     {
       field: 'bio',
