@@ -2,7 +2,7 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { z } from '#/adapter/form';
 import { DRangePickerProps } from '#/utils/date';
-import { listAdmin } from '#/api';
+import { queryAdmin } from '#/api';
 
 export const table = 'shop_goods';
 
@@ -10,21 +10,6 @@ const goodsStatusSel = [
   { label: '上架', value: 1 },
   { label: '下架', value: 0 },
 ];
-
-const goodsTypeSel = [] as { label: string; value: string }[];
-
-/** 加载配置数据 */
-
-async function loadGoodsType() {
-  await listAdmin('shop_goods_type').then((res) => {
-    const guide = (res ?? []).map((item: { name: string; id: number }) => ({
-      label: item.name,
-      value: item.id + '',
-    }));
-    goodsTypeSel.push(...guide);
-  });
-}
-loadGoodsType();
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
@@ -39,13 +24,17 @@ export function useFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      component: 'Select',
+      component: 'ApiTreeSelect',
+      componentProps: {
+        api: queryAdmin('shop_goods_type', {
+          _select: 'id,name',
+        }),
+        class: 'w-full',
+        labelField: 'name',
+        valueField: 'id',
+      },
       fieldName: 'type',
       label: '商品类型',
-      rules: 'selectRequired',
-      componentProps: {
-        options: goodsTypeSel,
-      },
     },
     {
       component: 'Input',
@@ -108,6 +97,19 @@ export function useFormSchema(): VbenFormSchema[] {
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
+      component: 'ApiTreeSelect',
+      componentProps: {
+        api: queryAdmin('shop_goods_type', {
+          _select: 'id,name',
+        }),
+        class: 'w-full',
+        labelField: 'name',
+        valueField: 'id',
+      },
+      fieldName: 'type',
+      label: '分类',
+    },
+    {
       fieldName: 'name',
       label: '名称',
       component: 'Input',
@@ -143,13 +145,7 @@ export function useGridColumns<T = any>(
     {
       field: 'type',
       title: '商品分类',
-      cellRender: {
-        name: 'CellTag',
-        props: {
-          loose: true,
-        },
-        options: goodsTypeSel,
-      },
+      slots: { default: 'type' },
     },
     {
       field: 'name',

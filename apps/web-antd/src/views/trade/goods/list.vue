@@ -13,7 +13,23 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
 import { useGridColumns, useGridFormSchema, table } from './data';
 import Form from './form.vue';
-import { queryAdmin, upsertAdmin } from '#/api';
+import { queryAdmin, upsertAdmin, listAdmin } from '#/api';
+import { onMounted, ref } from 'vue';
+
+type TypeObj = Record<string, any>;
+
+const goodsTypeCodeToName = ref<TypeObj>({});
+
+onMounted(() => {
+  listAdmin('shop_goods_type', {
+    _select: 'id,name',
+  }).then((res: { id: number; name: string }[]) => {
+    goodsTypeCodeToName.value = res.reduce((pre, cur) => {
+      pre[cur.id] = cur.name;
+      return pre;
+    }, {} as TypeObj);
+  });
+});
 
 const [FormModal, formModalApi] = useVbenModal({
   connectedComponent: Form,
@@ -105,6 +121,10 @@ const [Grid, gridApi] = useVbenVxeGrid({
           </template>
           新增
         </Button>
+      </template>
+
+      <template #type="{ row }">
+        <span>{{ goodsTypeCodeToName[row.type] }}</span>
       </template>
     </Grid>
   </Page>
