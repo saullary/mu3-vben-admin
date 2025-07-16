@@ -10,6 +10,11 @@ export function codeAndName(
   arr: Record<string, any>[],
   opt: { name: string; id: string } = { name: 'name', id: 'id' },
 ) {
+  // 传入的id无效, 直接返回
+  if (id === null || id === void 1) {
+    return '';
+  }
+
   const name = arr.find((item) => item[opt.id] === id)?.[opt.name] ?? '';
   return `(${id}) ${name}`;
 }
