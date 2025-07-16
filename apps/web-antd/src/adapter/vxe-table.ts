@@ -28,6 +28,7 @@ setupVbenVxeTable({
         border: false,
         columnConfig: {
           resizable: true,
+          minWidth: 90,
         },
 
         formConfig: {

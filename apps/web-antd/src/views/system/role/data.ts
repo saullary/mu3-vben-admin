@@ -93,13 +93,11 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
     {
       field: 'name',
       title: $t('system.role.roleName'),
-      minWidth: 100,
       // sortable: true,
     },
     {
       field: 'id',
       title: $t('system.role.id'),
-      minWidth: 80,
     },
     {
       cellRender: {
@@ -108,16 +106,13 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
       },
       field: 'status',
       title: $t('system.role.status'),
-      minWidth: 100,
     },
     {
       field: 'remark',
-      minWidth: 100,
       title: $t('system.role.remark'),
     },
     {
       field: 'permissions',
-      minWidth: 100,
       title: '权限ID',
     },
     {

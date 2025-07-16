@@ -81,24 +81,20 @@ export function useColumns<T = UserInfoApi.UserInfo>(
     {
       field: 'name',
       title: '用户名',
-      minWidth: 100,
       // sortable: true,
     },
     {
       field: 'id',
       slots: { default: 'user_id' },
       title: 'ID',
-      minWidth: 80,
     },
     {
       field: 'email',
-      minWidth: 100,
       title: '邮箱',
     },
     {
       field: 'role_id',
       slots: { default: 'role_id' },
-      minWidth: 100,
       title: '角色',
     },
     {

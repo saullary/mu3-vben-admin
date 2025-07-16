@@ -39,18 +39,15 @@ export function useColumns(
       cellRender: { name: 'CellTag', options: getMenuTypeOptions() },
       field: 'type',
       title: $t('system.menu.type'),
-      minWidth: 80,
     },
     {
       field: 'authCode',
       title: $t('system.menu.authCode'),
-      // width: 200,
     },
     {
       align: 'left',
       field: 'path',
       title: $t('system.menu.path'),
-      minWidth: 80,
     },
 
     {
@@ -71,14 +68,12 @@ export function useColumns(
         }
         return '';
       },
-      minWidth: 80,
       title: $t('system.menu.component'),
     },
     {
       cellRender: { name: 'CellTag' },
       field: 'status',
       title: $t('system.menu.status'),
-      minWidth: 80,
     },
 
     {
