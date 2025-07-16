@@ -30,7 +30,10 @@ setupVbenVxeTable({
           resizable: true,
           minWidth: 90,
         },
-
+        sortConfig: {
+          multiple: true,
+          remote: true,
+        },
         formConfig: {
           // 全局禁用vxe-table的表单配置，使用formOptions
           enabled: false,
@@ -45,10 +48,22 @@ setupVbenVxeTable({
           },
           showActiveMsg: true,
           showResponseMsg: false,
+          sort: true,
         },
         round: true,
         showOverflow: true,
         size: 'small',
+
+        rowConfig: {
+          keyField: 'id',
+        },
+        toolbarConfig: {
+          custom: true,
+          export: false,
+          refresh: { code: 'query' },
+          search: true,
+          zoom: true,
+        },
       } as VxeTableGridOptions,
     });
 

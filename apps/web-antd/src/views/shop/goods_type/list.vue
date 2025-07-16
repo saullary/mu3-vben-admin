@@ -88,30 +88,16 @@ const [Grid, gridApi] = useVbenVxeGrid({
   // 表格配置
   gridOptions: {
     columns: useGridColumns(onActionClick),
-    height: 'auto',
-    keepSource: true,
     proxyConfig: {
       ajax: {
         query: queryAdmin(table),
       },
-      sort: true,
     },
     sortConfig: {
-      remote: true,
-      multiple: true,
       defaultSort: {
         field: 'seq',
         order: 'desc',
       },
-    },
-    rowConfig: {
-      keyField: 'id',
-    },
-    toolbarConfig: {
-      refresh: { code: 'query' },
-      search: true,
-      custom: true,
-      zoom: true,
     },
   } as VxeTableGridOptions<any>,
 });

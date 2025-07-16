@@ -43,28 +43,10 @@ const [Grid, gridApi] = useVbenVxeGrid({
   },
   gridOptions: {
     columns: useColumns(onActionClick),
-    height: 'auto',
-    keepSource: true,
     proxyConfig: {
       ajax: {
         query: queryAdmin(tableName),
       },
-      // sort: true,
-    },
-    rowConfig: {
-      keyField: 'id',
-    },
-    sortConfig: {
-      multiple: true,
-      remote: true,
-    },
-
-    toolbarConfig: {
-      custom: true,
-      export: false,
-      refresh: { code: 'query' },
-      search: true,
-      zoom: true,
     },
   } as VxeTableGridOptions<UserInfoApi.UserInfo>,
 });
