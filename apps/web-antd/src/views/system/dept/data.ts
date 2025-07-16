@@ -34,8 +34,6 @@ export function useSchema(): VbenFormSchema[] {
           _tree: 2,
         }),
         class: 'w-full',
-        labelField: 'name',
-        valueField: 'id',
         childrenField: 'children',
       },
       fieldName: 'pid',

@@ -81,10 +81,9 @@ const schema: VbenFormSchema[] = [
         return title.includes(input) || $t(title).includes(input);
       },
       getPopupContainer,
-      labelField: 'name', // 'meta.title',
+      // labelField: 'name', // 'meta.title',
       showSearch: true,
       treeDefaultExpandAll: true,
-      valueField: 'id',
       childrenField: 'children',
     },
     fieldName: 'pid',
