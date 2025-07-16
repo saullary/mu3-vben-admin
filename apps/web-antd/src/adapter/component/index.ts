@@ -162,6 +162,7 @@ async function initComponentAdapter() {
         modelPropName: 'value',
         optionsPropName: 'treeData',
         visibleEvent: 'onVisibleChange',
+        allowClear: true,
         labelField: 'name',
         valueField: 'id',
       },
@@ -180,7 +181,9 @@ async function initComponentAdapter() {
       inputComponent: Input,
       modelValueProp: 'value',
     }),
-    Input: withDefaultPlaceholder(Input, 'input'),
+    Input: withDefaultPlaceholder(Input, 'input', {
+      allowClear: true,
+    }),
     InputNumber: withDefaultPlaceholder(InputNumber, 'input'),
     InputPassword: withDefaultPlaceholder(InputPassword, 'input'),
     Mentions: withDefaultPlaceholder(Mentions, 'input'),
