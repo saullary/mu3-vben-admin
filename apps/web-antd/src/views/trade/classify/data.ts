@@ -1,4 +1,4 @@
-import type { VbenFormSchema } from '#/adapter/form';
+import { z, type VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { DRangePickerProps } from '#/utils/date';
 
@@ -26,9 +26,8 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'InputNumber',
       fieldName: 'seq',
       label: '排序',
-      rules: 'required',
+      rules: z.number().default(1000),
       componentProps: {
-        defaultValue: 1000,
         precision: 0,
       },
     },
