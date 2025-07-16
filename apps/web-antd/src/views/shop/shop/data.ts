@@ -40,11 +40,11 @@ export function useFormSchema(): VbenFormSchema[] {
     {
       component: 'ApiTreeSelect',
       componentProps: {
-        api: () => {},
-        class: 'w-full',
+        options: shopInfoTypeSel,
       },
       fieldName: 'type',
-      label: '商品类型',
+      label: '门店类型',
+      rules: 'required',
     },
     {
       component: 'Input',
@@ -141,6 +141,7 @@ export function useGridColumns<T = any>(
       field: 'id',
       title: 'ID',
       fixed: 'left',
+      width: 80,
     },
     {
       field: 'name',
