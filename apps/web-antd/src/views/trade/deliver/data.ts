@@ -45,9 +45,10 @@ export function useColumns(
     },
 
     {
-      field: 'created_t',
+      field: 'created_at',
       title: '创建时间',
       minWidth: 120,
+      formatter: 'formatDateTime',
     },
   ];
 }

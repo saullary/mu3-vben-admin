@@ -116,9 +116,10 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
       title: '权限ID',
     },
     {
-      field: 'created_t',
+      field: 'created_at',
       title: $t('system.role.createTime'),
       minWidth: 150,
+      formatter: 'formatDateTime',
     },
     {
       align: 'center',

@@ -98,9 +98,10 @@ export function useColumns<T = UserInfoApi.UserInfo>(
       title: '角色',
     },
     {
-      field: 'created_t',
+      field: 'created_at',
       title: $t('system.role.createTime'),
       minWidth: 150,
+      formatter: 'formatDateTime',
     },
     {
       align: 'center',

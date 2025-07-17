@@ -94,9 +94,10 @@ export function useColumns(
       // width: 100,
     },
     {
-      field: 'created_t',
+      field: 'created_at',
       title: $t('system.dept.createTime'),
       // width: 180,
+      formatter: 'formatDateTime',
     },
     {
       field: 'remark',
