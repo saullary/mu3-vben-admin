@@ -28,7 +28,7 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue']);
 
-const localFileList = ref<{ url: String }[]>([]);
+const localFileList = ref<UploadFile[]>([]);
 
 watch(
   () => props.modelValue,
@@ -39,24 +39,48 @@ watch(
       imgs = [imgs];
     }
 
-    localFileList.value = imgs.map((url) => ({ url: url as string }));
+    localFileList.value = imgs.map((url, i) => ({
+      url: url as string,
+      uid: i + '', // 占位
+      name: i + '', // 占位
+    }));
   },
   {
     immediate: true,
   },
 );
 
-function handleChange({ fileList }: UploadChangeParam<UploadFile<any>>) {
-  console.log(fileList);
+function handleChange({ file, fileList }: UploadChangeParam<UploadFile<any>>) {
+  const isFileReady = fileList.some((row) => {
+    // 跳过回显文件
+    if (row.url) {
+      return false;
+    }
 
+    // 选择文件后触发的特征 || 文件上传中的特征
+    return (
+      (row.percent === 0 && !row.thumbUrl) ||
+      (!row.thumbUrl && row.status === 'uploading')
+    );
+  });
+
+  if (isFileReady) {
+    return;
+  }
+
+  // 有上传失败的文件, 进行提示
   for (const row of fileList) {
-    if (!row.url && row.status !== 'done') {
-      return;
+    if (!row.url && !row.status) {
+      message.error(`${row.name} 上传失败`);
     }
   }
 
-  let val = fileList.map((file) => file.url || file.response?.url);
+  // url: 回显赋值; response?.url 服务端响应数据
+  let val = fileList
+    .map((row) => file.url || row.response?.url)
+    .filter((url) => url);
 
+  // 最大上传数为1, 直接返回文件链接
   if (props.maxCount === 1) {
     val = val[0];
   }
@@ -64,11 +88,11 @@ function handleChange({ fileList }: UploadChangeParam<UploadFile<any>>) {
   emits('update:modelValue', val);
 }
 
-function beforeUpload(curFile: File) {
-  const fSize = curFile.size / 1024 / 1024;
+function beforeUpload(curFile: UploadFile) {
+  const fSize = curFile.size! / 1024 / 1024;
 
   if (fSize > props.maxSize) {
-    message.error(`上传文件大小不能超过${props.maxSize}M`);
+    message.error(`${curFile.name}文件超过${props.maxSize}MB`);
     return false;
   }
 
@@ -113,7 +137,7 @@ onMounted(() => {
     <!-- 上传提示 -->
     <div class="mt-2 flex flex-wrap items-center text-[14px]">
       文件大小限
-      <div class="text-primary mx-1 font-bold">{{ props.maxCount }}MB</div>
+      <div class="text-primary mx-1 font-bold">{{ props.maxSize }}MB</div>
     </div>
   </div>
 </template>
