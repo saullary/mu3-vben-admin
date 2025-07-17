@@ -10,11 +10,11 @@ defineOptions({ name: 'UploadImg', inheritAttrs: false });
 const props = defineProps({
   maxCount: {
     type: Number,
-    default: Number.MAX_SAFE_INTEGER,
+    default: 1,
   },
   maxSize: {
     type: Number,
-    default: 500,
+    default: 0.5,
   },
   modelValue: {
     type: [Array, String],
@@ -54,7 +54,7 @@ watch(
   },
 );
 
-function handleChange({ file, fileList }: UploadChangeParam<UploadFile<any>>) {
+function handleChange({ fileList }: UploadChangeParam<UploadFile<any>>) {
   const isFileReady = fileList.some((row) => {
     // 跳过回显文件
     if (row.url) {
@@ -81,7 +81,7 @@ function handleChange({ file, fileList }: UploadChangeParam<UploadFile<any>>) {
 
   // url: 回显赋值; response?.url 服务端响应数据
   let val = fileList
-    .map((row) => file.url || row.response?.url)
+    .map((row) => row.url || row.response?.url)
     .filter((url) => url);
 
   // 最大上传数为1, 直接返回文件链接
