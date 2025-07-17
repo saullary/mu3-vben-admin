@@ -3,7 +3,7 @@ import type {
   VxeTableGridOptions,
   OnActionClickParams,
 } from '#/adapter/vxe-table';
-import { Page, useVbenModal } from '@vben/common-ui';
+import { Page, useVbenDrawer } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 import { Button, message } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
@@ -12,7 +12,7 @@ import Form from './form.vue';
 import { queryAdmin, upsertAdmin } from '#/api';
 import { TAB_NAME } from '#/utils/constant';
 
-const [FormModal, formModalApi] = useVbenModal({
+const [DrawerModal, drawerModalApi] = useVbenDrawer({
   connectedComponent: Form,
   destroyOnClose: true,
 });
@@ -24,7 +24,7 @@ function onRefresh() {
 
 /** 编辑门店 */
 function handleEdit(row?: any) {
-  formModalApi.setData(row).open();
+  drawerModalApi.setData(row).open();
 }
 
 /** 删除门店 */
@@ -75,13 +75,16 @@ const [Grid, gridApi] = useVbenVxeGrid({
         query: queryAdmin(TAB_NAME.SHOP.GOODS),
       },
     },
+    cellConfig: {
+      height: 80,
+    },
   } as VxeTableGridOptions<any>,
 });
 </script>
 
 <template>
   <Page auto-content-height>
-    <FormModal @success="onRefresh" />
+    <DrawerModal @success="onRefresh" />
 
     <Grid table-title="商品列表">
       <template #toolbar-tools>

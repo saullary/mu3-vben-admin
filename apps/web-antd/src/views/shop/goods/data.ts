@@ -50,10 +50,6 @@ export function useFormSchema(): VbenFormSchema[] {
       label: '商品图片',
       component: 'UploadImg',
       fieldName: 'cover',
-      componentProps: {
-        maxCount: 1,
-        maxSize: 10,
-      },
       rules: z.string().min(1, '请上传商品图片'),
     },
     {
@@ -84,7 +80,6 @@ export function useFormSchema(): VbenFormSchema[] {
       fieldName: 'detail_imgs',
       componentProps: {
         maxCount: 5,
-        maxSize: 10,
       },
     },
     {
