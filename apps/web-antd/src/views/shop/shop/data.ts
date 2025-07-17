@@ -52,6 +52,7 @@ export function useFormSchema(): VbenFormSchema[] {
       label: '门店logo',
       componentProps: {
         maxCount: 2,
+        maxSize: 5,
       },
     },
     {
