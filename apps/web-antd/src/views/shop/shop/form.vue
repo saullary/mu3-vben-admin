@@ -1,16 +1,12 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-
 import { useVbenDrawer } from '@vben/common-ui';
-
 import { message } from 'ant-design-vue';
-
 import { useVbenForm } from '#/adapter/form';
 import { $t } from '#/locales';
-
-import { useFormSchema, table } from './data';
-
+import { useFormSchema } from './data';
 import { upsertAdmin } from '#/api';
+import { TAB_NAME } from '#/utils/constant';
 
 const emit = defineEmits(['success']);
 const formData = ref();
@@ -43,7 +39,12 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     try {
       // 等待服务端响应
-      await upsertAdmin(table, data, data?.id, drawerApi.getData());
+      await upsertAdmin(
+        TAB_NAME.SHOP.INFO,
+        data,
+        data?.id,
+        drawerApi.getData(),
+      );
       // 关闭并提示
       await drawerApi.close();
       emit('success');

@@ -1,9 +1,7 @@
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { DRangePickerProps } from '#/utils/date';
-
 import { z } from '#/adapter/form';
-export const table = 'shop_info';
 
 const shopInfoStatusSel = [
   { label: '营业中', value: 1 },

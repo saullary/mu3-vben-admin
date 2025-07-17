@@ -3,18 +3,15 @@ import type {
   VxeTableGridOptions,
   OnActionClickParams,
 } from '#/adapter/vxe-table';
-
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
-
 import { Button, message } from 'ant-design-vue';
-
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-
-import { useGridColumns, useGridFormSchema, table, shopInfoType } from './data';
+import { useGridColumns, useGridFormSchema, shopInfoType } from './data';
 import Form from './form.vue';
 import { queryAdmin, upsertAdmin } from '#/api';
 import { $t } from '@vben/locales';
+import { TAB_NAME } from '#/utils/constant';
 
 const [FormDrawer, formDrawerApi] = useVbenDrawer({
   connectedComponent: Form,
@@ -40,7 +37,7 @@ async function handleDelete(row: any) {
   });
 
   try {
-    await upsertAdmin(table, null, row.id);
+    await upsertAdmin(TAB_NAME.SHOP.INFO, null, row.id);
     message.success({
       content: `${row.name}删除成功`,
       key: 'action_process_msg',
@@ -77,7 +74,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     columns: useGridColumns(onActionClick),
     proxyConfig: {
       ajax: {
-        query: queryAdmin(table),
+        query: queryAdmin(TAB_NAME.SHOP.INFO),
       },
     },
     cellConfig: {

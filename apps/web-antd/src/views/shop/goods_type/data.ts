@@ -2,9 +2,9 @@ import { z, type VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { DRangePickerProps } from '#/utils/date';
 import { queryAdmin } from '#/api';
-import { table as shopTab } from '../shop/data';
 import { ref } from 'vue';
 import { codeAndName } from '#/utils/table';
+import { TAB_NAME } from '#/utils/constant';
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
@@ -21,7 +21,7 @@ export function useFormSchema(): VbenFormSchema[] {
     {
       component: 'ApiSelect',
       componentProps: {
-        api: queryAdmin(shopTab, {
+        api: queryAdmin(TAB_NAME.SHOP.INFO, {
           _select: 'id,name',
         }),
       },
@@ -56,7 +56,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       component: 'ApiTreeSelect',
       componentProps: {
         api: queryAdmin(
-          shopTab,
+          TAB_NAME.SHOP.INFO,
           {
             _select: 'id,name',
           },
