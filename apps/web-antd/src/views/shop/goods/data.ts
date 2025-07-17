@@ -3,8 +3,9 @@ import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { z } from '#/adapter/form';
 import { DRangePickerProps } from '#/utils/date';
 import { queryAdmin } from '#/api';
-
-export const table = 'shop_goods';
+import { TAB_NAME } from '#/utils/constant';
+import { ref } from 'vue';
+import { codeAndName } from '#/utils/table';
 
 const goodsStatusSel = [
   { label: '上架', value: 1 },
@@ -24,15 +25,36 @@ export function useFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      component: 'ApiTreeSelect',
+      component: 'ApiSelect',
       componentProps: {
-        api: queryAdmin('shop_goods_type', {
+        api: queryAdmin(TAB_NAME.SHOP.INFO, {
           _select: 'id,name',
         }),
-        class: 'w-full',
+      },
+      fieldName: 'shop_id',
+      label: '归属店铺',
+      rules: 'selectRequired',
+    },
+    {
+      component: 'ApiSelect',
+      componentProps: {
+        api: queryAdmin(TAB_NAME.SHOP.TYPE, {
+          _select: 'id,name',
+        }),
       },
       fieldName: 'type',
       label: '商品类型',
+      rules: 'selectRequired',
+    },
+    {
+      label: '商品图片',
+      component: 'UploadImg',
+      fieldName: 'cover',
+      componentProps: {
+        maxCount: 1,
+        maxSize: 10,
+      },
+      rules: z.string().min(1, '请上传商品图片'),
     },
     {
       component: 'Input',
@@ -55,6 +77,15 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'Textarea',
       fieldName: 'bio',
       label: '简介',
+    },
+    {
+      label: '详情图片',
+      component: 'UploadImg',
+      fieldName: 'detail_imgs',
+      componentProps: {
+        maxCount: 5,
+        maxSize: 10,
+      },
     },
     {
       component: 'InputNumber',
@@ -91,16 +122,43 @@ export function useFormSchema(): VbenFormSchema[] {
   ];
 }
 
+/** 门店列表 */
+const shopList = ref([]);
+
+/** 分类列表 */
+const typeList = ref([]);
+
 /** 列表的搜索表单 */
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
-      component: 'ApiTreeSelect',
+      component: 'ApiSelect',
       componentProps: {
-        api: queryAdmin('shop_goods_type', {
-          _select: 'id,name',
-        }),
-        class: 'w-full',
+        api: queryAdmin(
+          TAB_NAME.SHOP.INFO,
+          {
+            _select: 'id,name',
+          },
+          (data: any) => {
+            shopList.value = data;
+          },
+        ),
+      },
+      fieldName: 'shop_id',
+      label: '门店',
+    },
+    {
+      component: 'ApiSelect',
+      componentProps: {
+        api: queryAdmin(
+          TAB_NAME.SHOP.TYPE,
+          {
+            _select: 'id,name',
+          },
+          (data: any) => {
+            typeList.value = data;
+          },
+        ),
       },
       fieldName: 'type',
       label: '分类',
@@ -140,9 +198,28 @@ export function useGridColumns<T = any>(
       width: 80,
     },
     {
+      field: 'shop_id',
+      title: '门店ID',
+      slots: {
+        default: ({ row: { shop_id } }) => codeAndName(shop_id, shopList.value),
+      },
+    },
+    {
       field: 'type',
       title: '分类ID',
-      slots: { default: 'type' },
+      slots: {
+        default: ({ row: { type } }) => codeAndName(type, typeList.value),
+      },
+    },
+    {
+      field: 'cover',
+      title: '商品图片',
+      cellRender: {
+        name: 'CellImage',
+        props: {
+          height: 'auto',
+        },
+      },
     },
     {
       field: 'name',
