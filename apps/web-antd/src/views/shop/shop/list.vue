@@ -4,7 +4,7 @@ import type {
   OnActionClickParams,
 } from '#/adapter/vxe-table';
 
-import { Page, useVbenModal } from '@vben/common-ui';
+import { Page, useVbenDrawer } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 
 import { Button, message } from 'ant-design-vue';
@@ -16,7 +16,7 @@ import Form from './form.vue';
 import { queryAdmin, upsertAdmin } from '#/api';
 import { $t } from '@vben/locales';
 
-const [FormModal, formModalApi] = useVbenModal({
+const [FormDrawer, formDrawerApi] = useVbenDrawer({
   connectedComponent: Form,
   destroyOnClose: true,
 });
@@ -28,7 +28,7 @@ function onRefresh() {
 
 /** 编辑门店 */
 function handleEdit(row?: any) {
-  formModalApi.setData(row).open();
+  formDrawerApi.setData(row).open();
 }
 
 /** 删除门店 */
@@ -80,13 +80,16 @@ const [Grid, gridApi] = useVbenVxeGrid({
         query: queryAdmin(table),
       },
     },
+    cellConfig: {
+      height: 80,
+    },
   } as VxeTableGridOptions<any>,
 });
 </script>
 
 <template>
   <Page auto-content-height>
-    <FormModal @success="onRefresh" />
+    <FormDrawer @success="onRefresh" />
 
     <Grid table-title="门店列表">
       <template #toolbar-tools>

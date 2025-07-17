@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 
-import { useVbenModal } from '@vben/common-ui';
+import { useVbenDrawer } from '@vben/common-ui';
 
 import { message } from 'ant-design-vue';
 
@@ -29,27 +29,27 @@ const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
 });
 
-const [Modal, modalApi] = useVbenModal({
+const [Drawer, drawerApi] = useVbenDrawer({
   async onConfirm() {
     const { valid } = await formApi.validate();
     if (!valid) {
       return;
     }
 
-    modalApi.lock();
+    drawerApi.lock();
 
     // 提交表单
     const data = await formApi.getValues();
 
     try {
       // 等待服务端响应
-      await upsertAdmin(table, data, data?.id, modalApi.getData());
+      await upsertAdmin(table, data, data?.id, drawerApi.getData());
       // 关闭并提示
-      await modalApi.close();
+      await drawerApi.close();
       emit('success');
       message.success($t('ui.actionMessage.operationSuccess'));
     } finally {
-      modalApi.unlock();
+      drawerApi.unlock();
     }
   },
 
@@ -60,25 +60,25 @@ const [Modal, modalApi] = useVbenModal({
       return;
     }
     // 加载数据
-    const data = modalApi.getData();
+    const data = drawerApi.getData();
 
     if (!data || !data.id) {
       return;
     }
-    modalApi.lock();
+    drawerApi.lock();
     try {
       formData.value = data;
 
       await formApi.setValues(formData.value);
     } finally {
-      modalApi.unlock();
+      drawerApi.unlock();
     }
   },
 });
 </script>
 
 <template>
-  <Modal class="w-[40%]" :title="getTitle">
+  <Drawer class="w-[40%]" :title="getTitle">
     <Form class="mx-4" />
-  </Modal>
+  </Drawer>
 </template>

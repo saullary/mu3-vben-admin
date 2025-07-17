@@ -48,12 +48,16 @@ export function useFormSchema(): VbenFormSchema[] {
     },
     {
       component: 'UploadImg',
-      fieldName: 'logos',
+      fieldName: 'logo',
       label: '门店logo',
       componentProps: {
-        maxCount: 2,
-        maxSize: 5,
+        maxCount: 1,
       },
+      rules: z
+        .string({
+          required_error: '请上传门店logo',
+        })
+        .min(1, { message: '请上传门店logo' }),
     },
     {
       component: 'Input',
@@ -155,6 +159,13 @@ export function useGridColumns<T = any>(
     {
       field: 'name',
       title: '门店名称',
+    },
+    {
+      field: 'logo',
+      title: '门店logo',
+      cellRender: {
+        name: 'CellImage',
+      },
     },
     {
       field: 'type',
