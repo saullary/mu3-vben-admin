@@ -11,7 +11,11 @@ if (isDev) {
 }
 adminBaseUrl += '/admin/auth';
 
-export function queryAdmin(table: String, query?: Recordable<any>) {
+export function queryAdmin(
+  table: String,
+  query?: Recordable<any>,
+  callback?: Function,
+) {
   return async (params: Recordable<any>, form: Recordable<any>) => {
     const { page, sort } = params || {};
     const body = {
@@ -28,7 +32,11 @@ export function queryAdmin(table: String, query?: Recordable<any>) {
     if (sort?.order) {
       body._order = `${sort.field} ${sort.order}`;
     }
-    return listAdmin(table, body);
+    const data = await listAdmin(table, body);
+    if (callback) {
+      callback(data);
+    }
+    return data;
   };
 }
 

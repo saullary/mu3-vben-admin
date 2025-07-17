@@ -10,7 +10,7 @@ defineOptions({ name: 'UploadImg', inheritAttrs: false });
 const props = defineProps({
   maxCount: {
     type: Number,
-    default: 1,
+    default: Number.MAX_SAFE_INTEGER,
   },
   maxSize: {
     type: Number,
@@ -33,6 +33,10 @@ const localFileList = ref<UploadFile[]>([]);
 watch(
   () => props.modelValue,
   (nd) => {
+    if (!nd || nd.length === 0) {
+      localFileList.value = [];
+      return;
+    }
     // 已经在上传结果列表
     let imgs = nd;
     if (typeof imgs === 'string') {

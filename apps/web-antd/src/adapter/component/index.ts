@@ -151,6 +151,8 @@ async function initComponentAdapter() {
         loadingSlot: 'suffixIcon',
         visibleEvent: 'onDropdownVisibleChange',
         modelPropName: 'value',
+        labelField: 'name',
+        valueField: 'id',
       },
     ),
     ApiTreeSelect: withDefaultPlaceholder(
