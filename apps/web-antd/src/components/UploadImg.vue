@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { UploadChangeParam, UploadFile } from 'ant-design-vue';
 import { onMounted, ref, watch } from 'vue';
-import { Upload, message } from 'ant-design-vue';
+import { Upload, message, Modal } from 'ant-design-vue';
 import { IconifyIcon } from '@vben/icons';
 import supabase from '#/api/core/supabase';
 
@@ -110,6 +110,13 @@ onMounted(() => {
       : '';
   });
 });
+
+// -------------------- 预览
+const previewImg = ref('');
+
+async function handlePreview(curFile: UploadFile) {
+  previewImg.value = curFile.url as string;
+}
 </script>
 
 <template>
@@ -124,6 +131,7 @@ onMounted(() => {
       :multiple="props.maxCount > 1"
       :before-upload="beforeUpload"
       @change="handleChange"
+      @preview="handlePreview"
     >
       <div
         v-if="props.maxCount > localFileList.length"
@@ -139,5 +147,15 @@ onMounted(() => {
       文件大小限
       <div class="text-primary mx-1 font-bold">{{ props.maxSize }}MB</div>
     </div>
+
+    <!-- 图片预览 -->
+    <Modal
+      :open="!!previewImg"
+      :footer="null"
+      @cancel="previewImg = ''"
+      title="门店LOGO"
+    >
+      <img alt="example" style="width: 100%" :src="previewImg" />
+    </Modal>
   </div>
 </template>
