@@ -153,6 +153,7 @@ async function initComponentAdapter() {
         modelPropName: 'value',
         labelField: 'name',
         valueField: 'id',
+        allowClear: true,
       },
     ),
     ApiTreeSelect: withDefaultPlaceholder(
