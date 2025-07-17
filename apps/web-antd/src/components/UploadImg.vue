@@ -92,11 +92,15 @@ function handleChange({ fileList }: UploadChangeParam<UploadFile<any>>) {
   emits('update:modelValue', val);
 }
 
-function beforeUpload(curFile: UploadFile) {
+function beforeUpload(curFile: UploadFile, curFileList: UploadFile[]) {
   const fSize = curFile.size! / 1024 / 1024;
 
   if (fSize > props.maxSize) {
     message.error(`${curFile.name}文件超过${props.maxSize}MB`);
+    // 标记不符文件
+    const index = curFileList.findIndex((file) => file.uid === curFile.uid);
+    curFileList[index]!.status = 'error';
+
     return false;
   }
 

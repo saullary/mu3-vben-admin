@@ -154,6 +154,7 @@ async function initComponentAdapter() {
         labelField: 'name',
         allowClear: true,
         valueField: 'id',
+        allowClear: true,
       },
     ),
     ApiTreeSelect: withDefaultPlaceholder(

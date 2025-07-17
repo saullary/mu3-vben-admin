@@ -3,31 +3,15 @@ import type {
   VxeTableGridOptions,
   OnActionClickParams,
 } from '#/adapter/vxe-table';
-
 import { Page, useVbenModal } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
-
 import { Button, message } from 'ant-design-vue';
-
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-
-import { useGridColumns, useGridFormSchema, table } from './data';
+import { useGridColumns, useGridFormSchema } from './data';
 import Form from './form.vue';
-import { listAdmin, queryAdmin, upsertAdmin } from '#/api';
+import { queryAdmin, upsertAdmin } from '#/api';
 import { $t } from '@vben/locales';
-import { codeAndName } from '#/utils/table';
-import { onMounted, ref } from 'vue';
-import { table as shopTab } from '../shop/data';
-
-const shopArr = ref([]);
-
-onMounted(() => {
-  listAdmin(shopTab, {
-    _select: 'id,name',
-  }).then((res) => {
-    shopArr.value = res;
-  });
-});
+import { TAB_NAME } from '#/utils/constant';
 
 const [FormModal, formModalApi] = useVbenModal({
   connectedComponent: Form,
@@ -53,7 +37,7 @@ async function handleDelete(row: any) {
   });
 
   try {
-    await upsertAdmin(table, null, row.id);
+    await upsertAdmin(TAB_NAME.SHOP.TYPE, null, row.id);
     message.success({
       content: `${row.name}删除成功`,
       key: 'action_process_msg',
@@ -90,7 +74,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     columns: useGridColumns(onActionClick),
     proxyConfig: {
       ajax: {
-        query: queryAdmin(table),
+        query: queryAdmin(TAB_NAME.SHOP.TYPE),
       },
     },
     sortConfig: {
@@ -115,11 +99,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
           </template>
           新增
         </Button>
-      </template>
-
-      <!-- 所属店铺 -->
-      <template #shop_id="{ row }">
-        {{ codeAndName(row.shop_id, shopArr) }}
       </template>
     </Grid>
   </Page>

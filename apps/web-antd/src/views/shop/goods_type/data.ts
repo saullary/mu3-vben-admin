@@ -3,8 +3,8 @@ import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { DRangePickerProps } from '#/utils/date';
 import { queryAdmin } from '#/api';
 import { table as shopTab } from '../shop/data';
-
-export const table = 'shop_goods_type';
+import { ref } from 'vue';
+import { codeAndName } from '#/utils/table';
 
 /** 新增/修改的表单 */
 export function useFormSchema(): VbenFormSchema[] {
@@ -19,7 +19,7 @@ export function useFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      component: 'ApiTreeSelect',
+      component: 'ApiSelect',
       componentProps: {
         api: queryAdmin(shopTab, {
           _select: 'id,name',
@@ -47,15 +47,23 @@ export function useFormSchema(): VbenFormSchema[] {
   ];
 }
 
+const shopList = ref([]);
+
 /** 列表的搜索表单 */
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'ApiTreeSelect',
       componentProps: {
-        api: queryAdmin(shopTab, {
-          _select: 'id,name',
-        }),
+        api: queryAdmin(
+          shopTab,
+          {
+            _select: 'id,name',
+          },
+          (data: any) => {
+            shopList.value = data;
+          },
+        ),
       },
       fieldName: 'shop_id',
       label: '门店',
@@ -88,7 +96,9 @@ export function useGridColumns<T = any>(
     {
       field: 'shop_id',
       title: '店铺ID',
-      slots: { default: 'shop_id' },
+      slots: {
+        default: ({ row: { shop_id } }) => codeAndName(shop_id, shopList.value),
+      },
     },
     {
       field: 'name',
