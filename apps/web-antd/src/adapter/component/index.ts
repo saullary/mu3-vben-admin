@@ -152,7 +152,6 @@ async function initComponentAdapter() {
         visibleEvent: 'onDropdownVisibleChange',
         modelPropName: 'value',
         labelField: 'name',
-        allowClear: true,
         valueField: 'id',
         allowClear: true,
       },
