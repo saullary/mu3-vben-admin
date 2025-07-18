@@ -123,6 +123,9 @@ const shopList = ref([]);
 /** 分类列表 */
 const typeList = ref([]);
 
+/** 所选门店id */
+const shopId = ref(undefined);
+
 /** 列表的搜索表单 */
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
@@ -145,18 +148,37 @@ export function useGridFormSchema(): VbenFormSchema[] {
     {
       component: 'ApiSelect',
       componentProps: {
-        api: queryAdmin(
-          TAB_NAME.SHOP.TYPE,
-          {
-            _select: 'id,name',
-          },
-          (data: any) => {
-            typeList.value = data;
-          },
-        ),
+        params: { shopId },
+        api: async ({ shopId }: { shopId: number | undefined }) => {
+          if (shopId === void 0) {
+            return [];
+          }
+
+          return queryAdmin(
+            TAB_NAME.SHOP.TYPE,
+            {
+              _select: 'id,name',
+            },
+            (data: any) => {
+              typeList.value = data;
+            },
+          )({}, { shop_id: shopId });
+        },
       },
       fieldName: 'type',
       label: '分类',
+      dependencies: {
+        componentProps(vals, actions) {
+          shopId.value = vals.shop_id;
+          actions.setFieldValue('type', undefined);
+          typeList.value = [];
+          // 函数必要返回
+          return {};
+        },
+
+        triggerFields: ['shop_id'],
+      },
+      help: '请先选择门店',
     },
     {
       fieldName: 'name',
