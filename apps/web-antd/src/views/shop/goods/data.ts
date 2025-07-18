@@ -144,6 +144,17 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
       fieldName: 'shop_id',
       label: '门店',
+      // dependencies: {
+      //   // if函数优先级大于show函数, 都可以是异步函数, 且不受重置事件影响
+
+      //   // css级别显隐控制
+      //   // show(vals, actions) { return false; },
+      //   // 直接销毁组件
+      //   // if(vals, actions) { return true; },
+
+      //   // 配置所需的必要参数
+      //   triggerFields: [''],
+      // },
     },
     {
       component: 'ApiSelect',
