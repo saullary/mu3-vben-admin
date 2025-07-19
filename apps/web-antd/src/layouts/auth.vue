@@ -5,9 +5,12 @@ import { AuthPageLayout } from '@vben/layouts';
 import { preferences } from '@vben/preferences';
 
 import { $t } from '#/locales';
+import { useRouter } from 'vue-router';
 
 const appName = computed(() => preferences.app.name);
 const logo = computed(() => preferences.logo.source);
+
+const router = useRouter();
 </script>
 
 <template>
@@ -16,6 +19,7 @@ const logo = computed(() => preferences.logo.source);
     :logo="logo"
     :page-description="$t('authentication.pageDesc')"
     :page-title="$t('authentication.pageTitle')"
+    :click-logo="() => router.push('/')"
   >
     <!-- 自定义工具栏 -->
     <!-- <template #toolbar></template> -->
