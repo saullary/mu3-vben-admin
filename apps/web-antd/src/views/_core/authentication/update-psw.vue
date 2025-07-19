@@ -28,6 +28,7 @@ const formSchema = computed((): VbenFormSchema[] => {
       component: 'VbenInput',
       componentProps: {
         placeholder: '新密码',
+        type: 'password',
       },
       fieldName: 'psw',
       label: '新密码',
@@ -37,6 +38,7 @@ const formSchema = computed((): VbenFormSchema[] => {
       component: 'VbenInput',
       componentProps: {
         placeholder: '确认新密码',
+        type: 'password',
       },
       fieldName: 'repsw',
       label: '确认新密码',
