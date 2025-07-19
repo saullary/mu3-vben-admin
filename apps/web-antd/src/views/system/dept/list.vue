@@ -17,6 +17,7 @@ import { $t } from '#/locales';
 import { useColumns } from './data';
 import Form from './modules/form.vue';
 import { queryAdmin, upsertAdmin } from '#/api';
+import { TAB_NAME } from '#/utils/constant';
 
 const [FormModal, formModalApi] = useVbenModal({
   connectedComponent: Form,
@@ -57,7 +58,7 @@ function onDelete(row: SystemDeptApi.SystemDept) {
     key: 'action_process_msg',
   });
   // deleteDept(row.id)
-  upsertAdmin('sys_dept', null, row.id)
+  upsertAdmin(TAB_NAME.system.dept, null, row.id)
     .then(() => {
       message.success({
         content: $t('ui.actionMessage.deleteSuccess', [row.name]),
@@ -104,7 +105,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     },
     proxyConfig: {
       ajax: {
-        query: queryAdmin('sys_dept', {
+        query: queryAdmin(TAB_NAME.system.dept, {
           _tree: 1,
         }),
       },

@@ -18,6 +18,7 @@ import { SystemMenuApi } from '#/api/system/menu';
 import { useColumns } from './data';
 import Form from './modules/form.vue';
 import { queryAdmin, upsertAdmin } from '#/api';
+import { TAB_NAME } from '#/utils/constant';
 
 const [FormDrawer, formDrawerApi] = useVbenDrawer({
   connectedComponent: Form,
@@ -34,7 +35,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     },
     proxyConfig: {
       ajax: {
-        query: queryAdmin('sys_menu', {
+        query: queryAdmin(TAB_NAME.system.menu, {
           _tree: 1,
         }),
       },
@@ -98,7 +99,7 @@ function onDelete(row: SystemMenuApi.SystemMenu) {
     duration: 0,
     key: 'action_process_msg',
   });
-  upsertAdmin('sys_menu', null, row.id)
+  upsertAdmin(TAB_NAME.system.menu, null, row.id)
     .then(() => {
       message.success({
         content: $t('ui.actionMessage.deleteSuccess', [row.name]),

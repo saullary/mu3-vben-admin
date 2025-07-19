@@ -19,6 +19,7 @@ import { $t } from '#/locales';
 
 import { useFormSchema } from '../data';
 import { listAdmin, upsertAdmin } from '#/api';
+import { TAB_NAME } from '#/utils/constant';
 
 const emits = defineEmits(['success']);
 
@@ -40,7 +41,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     const values = await formApi.getValues();
     drawerApi.lock();
     // (id.value ? updateRole(id.value, values) : createRole(values))
-    upsertAdmin('sys_role', values, id.value, drawerApi.getData())
+    upsertAdmin(TAB_NAME.system.role, values, id.value, drawerApi.getData())
       .then(() => {
         emits('success');
         drawerApi.close();
@@ -71,7 +72,7 @@ async function loadPermissions() {
   loadingPermissions.value = true;
   try {
     // await getMenuList();
-    const res = await listAdmin('sys_menu', {
+    const res = await listAdmin(TAB_NAME.system.menu, {
       _tree: 1,
       _select: 'id,name,pid',
     });

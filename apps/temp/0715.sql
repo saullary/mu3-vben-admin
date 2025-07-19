@@ -102,7 +102,7 @@ CREATE TABLE public.sys_menu (
   meta jsonb,
   status smallint,
   pid integer,
-  authCode text,
+  auth_code text,
   CONSTRAINT sys_menu_pkey PRIMARY KEY (id)
 );
 CREATE TABLE public.sys_role (

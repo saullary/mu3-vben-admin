@@ -18,8 +18,9 @@ import { $t } from '#/locales';
 
 import { useColumns, useGridFormSchema } from './data';
 import Form from './modules/form.vue';
+import { TAB_NAME } from '#/utils/constant';
 
-const tableName = 'sys_role';
+const tableName = TAB_NAME.system.role;
 
 const [FormDrawer, formDrawerApi] = useVbenDrawer({
   connectedComponent: Form,

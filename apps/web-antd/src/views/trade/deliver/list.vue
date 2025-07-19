@@ -16,8 +16,7 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 
 import { useColumns, useGridFormSchema } from './data';
 import { queryAdmin, upsertAdmin } from '#/api';
-
-const tableName = 'deliver_log';
+import { TAB_NAME } from '#/utils/constant';
 
 const [Grid, gridApi] = useVbenVxeGrid({
   formOptions: {
@@ -27,31 +26,13 @@ const [Grid, gridApi] = useVbenVxeGrid({
 
   gridOptions: {
     columns: useColumns(onActionClick),
-    height: 'auto',
-    keepSource: true,
     pagerConfig: {
       enabled: false,
     },
     proxyConfig: {
       ajax: {
-        query: queryAdmin(tableName, {
-          _tree: 1,
-        }),
+        query: queryAdmin(TAB_NAME.trade.deliver),
       },
-    },
-    rowConfig: {
-      keyField: 'id',
-    },
-    toolbarConfig: {
-      custom: true,
-      export: false,
-      refresh: { code: 'query' },
-      zoom: true,
-    },
-    treeConfig: {
-      parentField: 'pid',
-      rowField: 'id',
-      transform: false,
     },
   } as VxeTableGridOptions,
 });
@@ -78,7 +59,7 @@ function onDelete(row: any) {
     duration: 0,
     key: 'action_process_msg',
   });
-  upsertAdmin(tableName, null, row.id)
+  upsertAdmin(TAB_NAME.trade.deliver, null, row.id)
     .then(() => {
       message.success({
         content: $t('ui.actionMessage.deleteSuccess', [row.name]),

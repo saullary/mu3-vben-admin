@@ -41,8 +41,8 @@ export function useColumns(
       title: $t('system.menu.type'),
     },
     {
-      field: 'authCode',
-      title: $t('system.menu.authCode'),
+      field: 'auth_code',
+      title: $t('system.menu.auth_code'),
     },
     {
       align: 'left',

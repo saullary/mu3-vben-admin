@@ -9,4 +9,14 @@ export const TAB_NAME = {
     /** 门店 */
     INFO: 'shop_info',
   },
+  trade: {
+    deliver: 'trade_deliver', // 快递记录
+  },
+  system: {
+    log: 'sys_log',
+    role: 'sys_role',
+    dept: 'sys_dept',
+    menu: 'sys_menu',
+    user: 'user_info',
+  },
 } as const;

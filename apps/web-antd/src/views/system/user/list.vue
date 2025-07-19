@@ -18,11 +18,12 @@ import Form from './form.vue';
 import { useColumns, useGridFormSchema, tableName } from './data';
 import type { UserInfoApi } from './data';
 import { onMounted } from 'vue';
+import { TAB_NAME } from '#/utils/constant';
 
 let roleList: any[] = [];
 
 onMounted(() => {
-  listAdmin('sys_role').then((data) => {
+  listAdmin(TAB_NAME.system.role).then((data) => {
     roleList = data;
   });
 });

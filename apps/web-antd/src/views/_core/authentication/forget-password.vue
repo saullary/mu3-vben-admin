@@ -6,7 +6,7 @@ import { computed, ref } from 'vue';
 
 import { AuthenticationForgetPassword, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
-import supabase from '#/api/core/supabase';
+import supabase, { getSbData } from '#/api/core/supabase';
 
 defineOptions({ name: 'ForgetPassword' });
 
@@ -34,10 +34,11 @@ async function handleSubmit(value: Recordable<any>) {
   // console.log('reset email:', value);
   try {
     loading.value = true;
-    const data = await supabase.auth.resetPasswordForEmail(value.email, {
+    const res = await supabase.auth.resetPasswordForEmail(value.email, {
       redirectTo: location.origin + '/auth/update-password',
     });
-    console.log(data);
+    console.log(res);
+    getSbData(res);
     sendTo.value = value.email;
   } catch (error) {
     console.log(error);

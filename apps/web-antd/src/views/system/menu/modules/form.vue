@@ -21,6 +21,7 @@ import { $t } from '#/locales';
 
 import { getMenuTypeOptions } from '../data';
 import { queryAdmin, upsertAdmin } from '#/api';
+import { TAB_NAME } from '#/utils/constant';
 
 const emit = defineEmits<{
   success: [];
@@ -67,7 +68,7 @@ const schema: VbenFormSchema[] = [
   {
     component: 'ApiTreeSelect',
     componentProps: {
-      api: queryAdmin('sys_menu', {
+      api: queryAdmin(TAB_NAME.system.menu, {
         _tree: 2,
         _select: 'id,name,pid',
       }),
@@ -252,8 +253,8 @@ const schema: VbenFormSchema[] = [
       },
       triggerFields: ['type'],
     },
-    fieldName: 'authCode',
-    label: $t('system.menu.authCode'),
+    fieldName: 'auth_code',
+    label: $t('system.menu.auth_code'),
   },
   {
     component: 'RadioGroup',
@@ -487,7 +488,7 @@ async function onSubmit() {
     delete data.linkSrc;
     try {
       await upsertAdmin(
-        'sys_menu',
+        TAB_NAME.system.menu,
         data,
         formData.value?.id,
         drawerApi.getData(),

@@ -13,6 +13,7 @@ import { $t } from '#/locales';
 
 import { useSchema } from '../data';
 import { upsertAdmin } from '#/api';
+import { TAB_NAME } from '#/utils/constant';
 
 const emit = defineEmits(['success']);
 const formData = ref<SystemDeptApi.SystemDept>();
@@ -44,7 +45,7 @@ const [Modal, modalApi] = useVbenModal({
         //   ? updateDept(formData.value.id, data)
         //   : createDept(data));
         await upsertAdmin(
-          'sys_dept',
+          TAB_NAME.system.dept,
           data,
           formData.value?.id,
           modalApi.getData(),

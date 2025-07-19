@@ -8,6 +8,7 @@ import { z } from '#/adapter/form';
 // import { getDeptList } from '#/api/system/dept';
 import { $t } from '#/locales';
 import { queryAdmin } from '#/api';
+import { TAB_NAME } from '#/utils/constant';
 
 /**
  * 获取编辑表单的字段配置。如果没有使用多语言，可以直接export一个数组常量
@@ -30,7 +31,7 @@ export function useSchema(): VbenFormSchema[] {
       component: 'ApiTreeSelect',
       componentProps: {
         allowClear: true,
-        api: queryAdmin('sys_dept', {
+        api: queryAdmin(TAB_NAME.system.dept, {
           _tree: 2,
         }),
         class: 'w-full',

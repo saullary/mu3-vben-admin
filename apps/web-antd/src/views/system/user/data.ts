@@ -2,6 +2,7 @@ import { z, type VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
 import { listAdmin, queryAdmin } from '#/api';
 import { $t } from '#/locales';
+import { TAB_NAME } from '#/utils/constant';
 import { DRangePickerProps } from '#/utils/date';
 
 export namespace UserInfoApi {
@@ -39,9 +40,9 @@ export function useFormSchema(): VbenFormSchema[] {
       // },
     },
     {
-      component: 'ApiTreeSelect',
+      component: 'ApiSelect',
       componentProps: {
-        api: queryAdmin('sys_role', {
+        api: queryAdmin(TAB_NAME.system.role, {
           _select: 'id,name',
         }),
         class: 'w-full',
