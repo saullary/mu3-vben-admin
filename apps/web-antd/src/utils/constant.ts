@@ -17,6 +17,6 @@ export const TAB_NAME = {
     role: 'sys_role',
     dept: 'sys_dept',
     menu: 'sys_menu',
-    user: 'sys_info',
+    user: 'sys_user',
   },
 } as const;
