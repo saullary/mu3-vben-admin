@@ -15,7 +15,7 @@ import { $t } from '#/locales';
 
 import Form from './form.vue';
 
-import { useColumns, useGridFormSchema, tableName } from './data';
+import { useColumns, useGridFormSchema } from './data';
 import type { UserInfoApi } from './data';
 import { onMounted } from 'vue';
 import { TAB_NAME } from '#/utils/constant';
@@ -46,7 +46,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     columns: useColumns(onActionClick),
     proxyConfig: {
       ajax: {
-        query: queryAdmin(tableName),
+        query: queryAdmin(TAB_NAME.system.user),
       },
     },
   } as VxeTableGridOptions<UserInfoApi.UserInfo>,
@@ -76,7 +76,7 @@ function onDelete(row: UserInfoApi.UserInfo) {
     key: 'action_process_msg',
   });
   // deleteRole(row.id)
-  upsertAdmin(tableName, null, row.id)
+  upsertAdmin(TAB_NAME.system.user, null, row.id)
     .then(() => {
       message.success({
         content: $t('ui.actionMessage.deleteSuccess', [row.name]),

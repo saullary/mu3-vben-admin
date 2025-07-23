@@ -16,8 +16,6 @@ export namespace UserInfoApi {
   }
 }
 
-export const tableName = 'user_info';
-
 export function useFormSchema(): VbenFormSchema[] {
   return [
     {

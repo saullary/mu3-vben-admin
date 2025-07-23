@@ -9,8 +9,9 @@ import { useVbenForm } from '#/adapter/form';
 import { $t } from '#/locales';
 
 import { upsertAdmin } from '#/api';
-import { tableName, useFormSchema } from './data';
+import { useFormSchema } from './data';
 import type { UserInfoApi } from './data';
+import { TAB_NAME } from '#/utils/constant';
 
 const emits = defineEmits(['success']);
 
@@ -28,7 +29,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (!valid) return;
     const values = await formApi.getValues();
     drawerApi.lock();
-    upsertAdmin(tableName, values, id.value, drawerApi.getData())
+    upsertAdmin(TAB_NAME.system.user, values, id.value, drawerApi.getData())
       .then(() => {
         emits('success');
         drawerApi.close();

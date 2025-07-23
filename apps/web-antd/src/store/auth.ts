@@ -76,7 +76,6 @@ export const useAuthStore = defineStore('auth', () => {
       if (onSuccess) {
         await onSuccess();
       } else {
-        console.log('111');
         await router.push(userInfo.homePath || preferences.app.defaultHomePath);
       }
     } finally {
