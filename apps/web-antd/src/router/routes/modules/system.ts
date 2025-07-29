@@ -13,15 +13,6 @@ const routes: RouteRecordRaw[] = [
     path: '/system',
     children: [
       {
-        path: '/system/user',
-        name: 'UserInfo',
-        meta: {
-          icon: 'mdi:account',
-          title: '用户管理',
-        },
-        component: () => import('#/views/system/user/list.vue'),
-      },
-      {
         path: '/system/role',
         name: 'SystemRole',
         meta: {
