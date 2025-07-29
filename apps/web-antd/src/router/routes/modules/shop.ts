@@ -6,14 +6,14 @@ const routes: RouteRecordRaw[] = [
       icon: 'ep:goods',
       keepAlive: true,
       order: 1000,
-      title: '门店商品',
+      title: '门店管理',
     },
     name: 'shop',
     path: '/shop',
     children: [
       {
         meta: {
-          title: '门店管理',
+          title: '门店信息',
         },
         name: 'Shop',
         path: '/shop/shop',
