@@ -46,7 +46,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     columns: useColumns(onActionClick),
     proxyConfig: {
       ajax: {
-        query: queryAdmin(TAB_NAME.system.user),
+        query: queryAdmin(TAB_NAME.USER.SYS),
       },
     },
   } as VxeTableGridOptions<UserInfoApi.UserInfo>,
@@ -76,7 +76,7 @@ function onDelete(row: UserInfoApi.UserInfo) {
     key: 'action_process_msg',
   });
   // deleteRole(row.id)
-  upsertAdmin(TAB_NAME.system.user, null, row.id)
+  upsertAdmin(TAB_NAME.USER.SYS, null, row.id)
     .then(() => {
       message.success({
         content: $t('ui.actionMessage.deleteSuccess', [row.name]),

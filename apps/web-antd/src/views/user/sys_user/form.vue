@@ -29,7 +29,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (!valid) return;
     const values = await formApi.getValues();
     drawerApi.lock();
-    upsertAdmin(TAB_NAME.system.user, values, id.value, drawerApi.getData())
+    upsertAdmin(TAB_NAME.USER.SYS, values, id.value, drawerApi.getData())
       .then(() => {
         emits('success');
         drawerApi.close();
