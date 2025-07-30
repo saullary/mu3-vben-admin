@@ -8,6 +8,8 @@ export const TAB_NAME = {
     TYPE: 'shop_goods_type',
     /** 门店 */
     INFO: 'shop_info',
+    /** 代金券 */
+    COUPON: 'shop_coupon',
   },
   trade: {
     deliver: 'trade_deliver', // 快递记录

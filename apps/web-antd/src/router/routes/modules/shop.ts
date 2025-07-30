@@ -35,6 +35,14 @@ const routes: RouteRecordRaw[] = [
         path: '/shop/goods',
         component: () => import('#/views/shop/goods/list.vue'),
       },
+      {
+        meta: {
+          title: '门店代金券',
+        },
+        name: 'ShopCoupon',
+        path: '/shop/coupon',
+        component: () => import('#/views/shop/coupon/list.vue'),
+      },
     ],
   },
 ];

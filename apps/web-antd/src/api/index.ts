@@ -5,6 +5,13 @@ import { requestClient } from './request';
 
 export const isDev = /127/.test(location.host);
 
+declare global {
+  interface IdAndName {
+    id: number;
+    name: string;
+  }
+}
+
 let adminBaseUrl = 'https://mu3.hqs.link/v1';
 if (isDev) {
   adminBaseUrl = 'http://localhost:6011/v1';
