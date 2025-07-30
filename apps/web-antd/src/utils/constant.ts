@@ -19,4 +19,8 @@ export const TAB_NAME = {
     menu: 'sys_menu',
     user: 'sys_user',
   },
+  USER: {
+    ORDINARY: 'user_info', // 普通用户
+    SYS: 'sys_user', // 系统用户
+  },
 } as const;

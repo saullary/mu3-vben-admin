@@ -1,61 +1,40 @@
-import { z, type VbenFormSchema } from '#/adapter/form';
+import { type VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
-import { listAdmin, queryAdmin } from '#/api';
 import { $t } from '#/locales';
-import { TAB_NAME } from '#/utils/constant';
 import { DRangePickerProps } from '#/utils/date';
 
-export namespace UserInfoApi {
-  export interface UserInfo {
-    [key: string]: any;
-    id: string;
-    name: string;
-    role: number;
-    email?: string;
-    status: 0 | 1;
-  }
+export interface ITableData {
+  id: number;
+  created_at: string;
+  user_id: string;
+  nickname: string;
+  email: null | string;
+  phone: string;
+  wx_uid: string;
+  wx_oid: string;
+  status: number;
+  by_uid: null | string;
+  avatar_url: string;
+  extra_obj: null | string;
 }
 
+/** 表单配置 */
 export function useFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
-      fieldName: 'name',
+      fieldName: 'nickname',
       label: '名字',
-      rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'email',
-      label: '邮箱',
-      rules: z.string().email(),
-      // dependencies: {
-      //   disabled(values, row) {
-      //     console.log(values, row);
-      //     return !values.user_id;
-      //   },
-      //   triggerFields: ['user_id'],
-      // },
-    },
-    {
-      component: 'ApiSelect',
-      componentProps: {
-        api: queryAdmin(TAB_NAME.system.role, {
-          _select: 'id,name',
-        }),
-        class: 'w-full',
-      },
-      fieldName: 'role_id',
-      label: '角色',
     },
   ];
 }
 
+/** 列表搜索 */
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
-      fieldName: 'name',
+      fieldName: 'nickname',
       label: '用户名',
     },
     { component: 'Input', fieldName: 'id', label: 'ID' },
@@ -73,28 +52,25 @@ export function useGridFormSchema(): VbenFormSchema[] {
   ];
 }
 
-export function useColumns<T = UserInfoApi.UserInfo>(
+/** 列表展示 */
+export function useColumns<T = any>(
   onActionClick: OnActionClickFn<T>,
 ): VxeTableGridOptions['columns'] {
   return [
     {
-      field: 'name',
+      field: 'nickname',
       title: '用户名',
-      // sortable: true,
+      slots: {
+        default: ({ row }) => `(${row.id}) ${row.nickname}`,
+      },
     },
     {
-      field: 'id',
-      slots: { default: 'user_id' },
-      title: 'ID',
+      field: 'phone',
+      title: '联系方式',
     },
     {
       field: 'email',
       title: '邮箱',
-    },
-    {
-      field: 'role_id',
-      slots: { default: 'role_id' },
-      title: '角色',
     },
     {
       field: 'created_at',
@@ -103,19 +79,16 @@ export function useColumns<T = UserInfoApi.UserInfo>(
       formatter: 'formatDateTime',
     },
     {
+      title: '操作',
+      field: 'operation',
       align: 'center',
       cellRender: {
+        name: 'CellOperation',
         attrs: {
-          nameField: 'name',
-          nameTitle: $t('system.role.name'),
           onClick: onActionClick,
         },
-        name: 'CellOperation',
+        options: [{ code: 'view', text: '详情' }],
       },
-      field: 'operation',
-      // fixed: 'right',
-      title: $t('system.role.operation'),
-      minWidth: 150,
     },
   ];
 }
