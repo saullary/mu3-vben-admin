@@ -19,6 +19,14 @@ const routes: RouteRecordRaw[] = [
         path: '/trade/deliver',
         component: () => import('#/views/trade/deliver/list.vue'),
       },
+      {
+        meta: {
+          title: '支付记录',
+        },
+        name: 'TradePay',
+        path: '/trade/pay',
+        component: () => import('#/views/trade/pay/list.vue'),
+      },
     ],
   },
 ];

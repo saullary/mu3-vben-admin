@@ -13,6 +13,7 @@ export const TAB_NAME = {
   },
   trade: {
     deliver: 'trade_deliver', // 快递记录
+    pay: 'trade_pay', // 支付记录
   },
   system: {
     log: 'sys_log',
