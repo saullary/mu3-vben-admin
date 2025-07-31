@@ -13,6 +13,14 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         meta: {
+          title: '门店订单',
+        },
+        name: 'order',
+        path: '/trade/order',
+        component: () => import('#/views/trade/list/list.vue'),
+      },
+      {
+        meta: {
           title: '快递记录',
         },
         name: 'deliver_log',

@@ -14,6 +14,7 @@ export const TAB_NAME = {
   trade: {
     deliver: 'trade_deliver', // 快递记录
     pay: 'trade_pay', // 支付记录
+    order: 'trade_order', // 门店订单
   },
   system: {
     log: 'sys_log',
