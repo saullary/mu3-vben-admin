@@ -13,11 +13,19 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         meta: {
-          title: '微信用户',
+          title: '微信',
         },
         name: 'UserSimpleUser',
         path: '/user/simple_user',
         component: () => import('#/views/user/simple_user/list.vue'),
+      },
+      {
+        meta: {
+          title: 'Web3',
+        },
+        name: 'UserWeb3User',
+        path: '/user/web3_user',
+        component: () => import('#/views/user/web3/list.vue'),
       },
     ],
   },

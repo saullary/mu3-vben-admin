@@ -26,5 +26,6 @@ export const TAB_NAME = {
   USER: {
     ORDINARY: 'user_info', // 普通用户
     ADDR: 'user_addr', // 普通用户地址
+    WEB3: 'user_bot', // web3用户
   },
 } as const;
