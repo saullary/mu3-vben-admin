@@ -3,14 +3,22 @@ import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { DRangePickerProps } from '#/utils/date';
 import { queryAdmin } from '#/api';
 import { TAB_NAME } from '#/utils/constant';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
+import { codeAndName } from '#/utils/table';
+
+export const typeCode = {
+  Money: 0, // 满减
+  Goods: 1, // 指定商品
+  Classify: 2, // 指定分类
+};
 
 /** 代金券类型 */
 const couponTypes = [
-  { label: '满减', value: 0 },
-  { label: '指定商品', value: 1 },
-  { label: '指定分类', value: 2 },
+  { label: '满减', value: typeCode.Money },
+  { label: '指定商品', value: typeCode.Goods },
+  { label: '指定分类', value: typeCode.Classify },
 ];
+
 /** 代金券状态 */
 const couponStatus = [
   { label: '已停用', value: -1 },
@@ -46,14 +54,15 @@ export function useFormSchema(): VbenFormSchema[] {
         },
       },
       fieldName: 'shop_id',
-      label: '归属店铺',
+      label: '门店',
       rules: 'selectRequired',
     },
     {
       component: 'Input',
       fieldName: 'name',
-      label: '代金券名称',
+      label: '名称',
       rules: 'required',
+      disabled: false,
     },
     {
       component: 'ApiSelect',
@@ -61,9 +70,15 @@ export function useFormSchema(): VbenFormSchema[] {
         options: couponTypes,
         allowClear: false,
       },
+      dependencies: {
+        triggerFields: ['shop_id'],
+        show: (formParams) => {
+          return formParams.shop_id !== void 0;
+        },
+      },
       defaultValue: 0,
       fieldName: 'type',
-      label: '代金券类型',
+      label: '类型',
     },
     // ------------------------ 不同类型的必填项 start
     {
@@ -78,9 +93,13 @@ export function useFormSchema(): VbenFormSchema[] {
           if (!vals.id) {
             formApi.resetField('base_price', undefined);
           }
-          return vals.type === 0;
+          return vals.type === typeCode.Money;
         },
-        triggerFields: ['type'],
+        show(vals) {
+          // 仅当选择门店后, 展示组件
+          return vals.shop_id !== void 0;
+        },
+        triggerFields: ['type', 'shop_id'],
       },
       rules: 'required',
     },
@@ -99,10 +118,13 @@ export function useFormSchema(): VbenFormSchema[] {
           if (!vals.id) {
             formApi.resetField('goods_id', undefined);
           }
-
-          return vals.type === 1;
+          return vals.type === typeCode.Goods;
         },
-        triggerFields: ['type'],
+        show(vals) {
+          // 仅当选择门店后, 展示组件
+          return vals.shop_id !== void 0;
+        },
+        triggerFields: ['type', 'shop_id'],
       },
       rules: 'selectRequired',
     },
@@ -121,14 +143,32 @@ export function useFormSchema(): VbenFormSchema[] {
           if (!vals.id) {
             formApi.resetField('goods_type', undefined);
           }
-          return vals.type === 2;
+          return vals.type === typeCode.Classify;
         },
-        triggerFields: ['type'],
+        show(vals) {
+          // 仅当选择门店后, 展示组件
+          return vals.shop_id !== void 0;
+        },
+        triggerFields: ['type', 'shop_id'],
       },
       rules: 'selectRequired',
     },
 
     // ------------------------ 不同类型的必填项 end
+
+    {
+      label: '优惠金额',
+      fieldName: 'cut_price',
+      component: 'InputNumber',
+      componentProps: {
+        precision: 2,
+      },
+      rules: z
+        .number({
+          message: '请输入优惠金额',
+        })
+        .min(0),
+    },
 
     {
       label: '发放总数',
@@ -158,17 +198,12 @@ export function useFormSchema(): VbenFormSchema[] {
   ];
 }
 
-/** 共用对应关系, 减少请求次数 */
-export const shopInfos = ref<Record<number, string>>({});
+/** 门店列表 */
+const shopList = reactive<IdAndName[]>([]);
 
 /** 列表的搜索表单 */
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
-    {
-      label: '代金券名称',
-      fieldName: 'name',
-      component: 'Input',
-    },
     {
       label: '所属门店',
       fieldName: 'shop_name',
@@ -180,18 +215,17 @@ export function useGridFormSchema(): VbenFormSchema[] {
             _select: 'id,name',
           },
           (data: IdAndName[]) => {
-            shopInfos.value = data.reduce(
-              (pre, cur) => {
-                pre[cur.id] = cur.name;
-                return pre;
-              },
-              {} as Record<number, string>,
-            );
+            shopList.splice(0, shopList.length, ...data);
           },
         ),
       },
     },
 
+    {
+      label: '代金券名称',
+      fieldName: 'name',
+      component: 'Input',
+    },
     {
       label: '发放状态',
       fieldName: 'status',
@@ -212,38 +246,38 @@ export function useGridFormSchema(): VbenFormSchema[] {
 /** 列表的字段 */
 export function useGridColumns<T = any>(
   onActionClick: OnActionClickFn<T>,
+  onStatusChange?: (newStatus: any, row: T) => PromiseLike<boolean | undefined>,
 ): VxeTableGridOptions['columns'] {
   return [
     {
-      field: 'name',
-      title: '名称',
+      title: '所属门店',
       slots: {
-        default: ({ row: { name, id } }) => `(${id}) ${name}`,
+        default: ({ row: { shop_id } }) => codeAndName(shop_id, shopList),
       },
     },
     {
-      title: '所属门店',
-      slots: {
-        default: 'shop',
-      },
+      field: 'name',
+      title: '名称',
     },
+    {
+      field: 'note',
+      title: '优惠配置',
+    },
+
     {
       title: '发放情况',
       slots: {
         default: ({ row: { total_num, got_num } }) =>
           `${got_num} / ${total_num}`,
       },
+      width: 100,
     },
     {
       field: 'status',
       title: '开启状态',
       cellRender: {
-        name: 'CellTag',
-        options: [
-          { color: 'red', label: '已停用', value: -1 },
-          { color: 'gray', label: '未发放', value: 0 },
-          { color: 'green', label: '已发放', value: 1 },
-        ],
+        attrs: { beforeChange: onStatusChange },
+        name: onStatusChange ? 'CellSwitch' : 'CellTag',
       },
     },
     {
@@ -265,31 +299,12 @@ export function useGridColumns<T = any>(
           {
             text: '修改',
             code: 'edit',
-            show: (row: any) => {
-              // 未发放判断
-              const isNotGranted = row.status === 0;
-
-              // 已发放判断
-              const isGranted = row.status === 1;
-
-              // 没有领取完毕
-              const isNotFinished = row.got_num < row.total_num;
-
-              return (isNotGranted || isGranted) && isNotFinished;
-            },
           },
           {
             text: '删除',
             code: 'delete',
-            // 未发放的代金券可删除
-            show: (row: any) => row.status === 0,
-          },
-          {
-            text: '停止发放',
-            code: 'stop',
-            color: 'warning',
-            // 已发放 且 领取数量小于总数
-            show: (row: any) => row.status === 1 && row.got_num < row.total_num,
+            // 无人领取, 可删除
+            show: (row: any) => row.got_num === 0,
           },
         ],
       },

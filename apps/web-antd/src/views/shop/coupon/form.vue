@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { useVbenDrawer } from '@vben/common-ui';
+import { ApiComponent, useVbenDrawer } from '@vben/common-ui';
 import { message } from 'ant-design-vue';
 import { useVbenForm } from '#/adapter/form';
 import { $t } from '#/locales';
-import { useFormSchema } from './data';
+import { useFormSchema, typeCode } from './data';
 import { upsertAdmin } from '#/api';
 import { TAB_NAME } from '#/utils/constant';
 
@@ -27,6 +27,8 @@ const [Form, formApi] = useVbenForm({
   showDefaultActions: false,
 });
 
+type TApiComponent = InstanceType<typeof ApiComponent>;
+
 const [Drawer, drawerApi] = useVbenDrawer({
   async onConfirm() {
     const { valid } = await formApi.validate();
@@ -43,11 +45,39 @@ const [Drawer, drawerApi] = useVbenDrawer({
       return;
     }
 
+    let note = '';
+
+    // 满减
+    if (data.type === typeCode.Money) {
+      note = `满${data.base_price}减${data.cut_price}`;
+    }
+    // 指定商品
+    else if (data.type === typeCode.Goods) {
+      const guide = formApi
+        .getFieldComponentRef<TApiComponent>('goods_id')!
+        .getOptions();
+      const goods = guide.find((row) => row.value === data.goods_id)?.label;
+      note = `商品:${goods} 优惠${data.cut_price}元`;
+    }
+    // 指定分类
+    else if (data.type === typeCode.Classify) {
+      const guide = formApi
+        .getFieldComponentRef<TApiComponent>('goods_type')!
+        .getOptions();
+      const classify = guide.find(
+        (row) => row.value === data.goods_type,
+      )?.label;
+      note = `分类:${classify} 优惠${data.cut_price}元`;
+    }
+
     // 代金券默认状态
     if (!data?.id) {
       data.status = 0; // 0-未发放
       data.got_num = 0; // 已发放数量
     }
+
+    // 记录优惠配置
+    data.note = note;
 
     try {
       drawerApi.lock();

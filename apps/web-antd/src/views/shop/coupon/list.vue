@@ -7,11 +7,12 @@ import { confirm, Page, useVbenDrawer } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 import { Button, message } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { useGridColumns, useGridFormSchema, shopInfos } from './data';
+import { useGridColumns, useGridFormSchema } from './data';
 import Form from './form.vue';
 import { queryAdmin, upsertAdmin } from '#/api';
 import { $t } from '@vben/locales';
 import { TAB_NAME } from '#/utils/constant';
+import type { Recordable } from '@vben/types';
 
 const [FormDrawer, formDrawerApi] = useVbenDrawer({
   connectedComponent: Form,
@@ -95,6 +96,32 @@ function onActionClick({ code, row }: OnActionClickParams<any>) {
   }
 }
 
+const status: Recordable<string> = {
+  0: '禁用',
+  1: '启用',
+};
+/**
+ * 状态开关即将改变
+ * @param newStatus 期望改变的状态值
+ * @param row 行数据
+ * @returns 返回false则中止改变，返回其他值（undefined、true）则允许改变
+ */
+async function onStatusChange(newStatus: number, row: any) {
+  try {
+    await confirm(
+      `你要将优惠券【${row.name}】的状态切换为【${status[newStatus]}】 吗？`,
+      `切换状态`,
+    );
+
+    // 更新状态
+    await upsertAdmin(TAB_NAME.SHOP.COUPON, { status: newStatus }, row.id);
+
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 const [Grid, gridApi] = useVbenVxeGrid({
   // 搜索条件
   formOptions: {
@@ -104,7 +131,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
 
   // 表格配置
   gridOptions: {
-    columns: useGridColumns(onActionClick),
+    columns: useGridColumns(onActionClick, onStatusChange),
     proxyConfig: {
       ajax: {
         query: queryAdmin(TAB_NAME.SHOP.COUPON),
@@ -132,8 +159,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
           新增
         </Button>
       </template>
-
-      <template #shop="{ row: { shop_id } }">{{ shopInfos[shop_id] }}</template>
     </Grid>
   </Page>
 </template>
