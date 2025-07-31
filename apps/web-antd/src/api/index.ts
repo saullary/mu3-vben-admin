@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-let adminBaseUrl = 'https://mu3.hqs.link/v1';
+let adminBaseUrl = 'https://tg2.quzz.fun/v1';
 if (isDev) {
   adminBaseUrl = 'http://localhost:6011/v1';
 }
