@@ -143,7 +143,8 @@ export function useFormSchema(): VbenFormSchema[] {
         .number({
           message: '请输入发放总数',
         })
-        .min(1),
+        .min(1)
+        .default(1),
     },
     {
       // 已领取数量, 编辑判断使用
