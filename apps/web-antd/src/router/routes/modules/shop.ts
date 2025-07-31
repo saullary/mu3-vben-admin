@@ -37,7 +37,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         meta: {
-          title: '门店代金券',
+          title: '代金券',
         },
         name: 'ShopCoupon',
         path: '/shop/coupon',

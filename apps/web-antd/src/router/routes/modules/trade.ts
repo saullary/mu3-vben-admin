@@ -13,19 +13,11 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         meta: {
-          title: '门店订单',
+          title: '订单记录',
         },
         name: 'order',
         path: '/trade/order',
         component: () => import('#/views/trade/list/list.vue'),
-      },
-      {
-        meta: {
-          title: '快递记录',
-        },
-        name: 'deliver_log',
-        path: '/trade/deliver',
-        component: () => import('#/views/trade/deliver/list.vue'),
       },
       {
         meta: {
@@ -34,6 +26,14 @@ const routes: RouteRecordRaw[] = [
         name: 'TradePay',
         path: '/trade/pay',
         component: () => import('#/views/trade/pay/list.vue'),
+      },
+      {
+        meta: {
+          title: '快递记录',
+        },
+        name: 'deliver_log',
+        path: '/trade/deliver',
+        component: () => import('#/views/trade/deliver/list.vue'),
       },
     ],
   },
