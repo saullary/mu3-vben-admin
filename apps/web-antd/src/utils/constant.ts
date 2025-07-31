@@ -21,10 +21,10 @@ export const TAB_NAME = {
     role: 'sys_role',
     dept: 'sys_dept',
     menu: 'sys_menu',
+    user: 'sys_user',
   },
   USER: {
     ORDINARY: 'user_info', // 普通用户
     ADDR: 'user_addr', // 普通用户地址
-    SYS: 'sys_user', // 系统用户
   },
 } as const;

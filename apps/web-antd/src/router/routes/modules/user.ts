@@ -13,14 +13,6 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         meta: {
-          title: '系统用户',
-        },
-        path: '/user/sys_user',
-        name: 'UserSysUser',
-        component: () => import('#/views/user/sys_user/list.vue'),
-      },
-      {
-        meta: {
           title: '普通用户',
         },
         name: 'UserSimpleUser',
