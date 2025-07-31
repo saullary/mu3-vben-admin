@@ -186,6 +186,17 @@ export function useFormSchema(): VbenFormSchema[] {
         .min(1)
         .default(1),
     },
+
+    {
+      label: '有效天数',
+      fieldName: 'valid_day',
+      component: 'InputNumber',
+      componentProps: {
+        precision: 0,
+        placeholder: '不填则长期有效',
+      },
+    },
+
     {
       // 已领取数量, 编辑判断使用
       component: 'Input',
@@ -261,9 +272,8 @@ export function useGridColumns<T = any>(
     },
     {
       field: 'note',
-      title: '优惠配置',
+      title: '备注',
     },
-
     {
       title: '发放情况',
       slots: {
