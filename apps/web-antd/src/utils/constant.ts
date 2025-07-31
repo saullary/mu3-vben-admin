@@ -24,6 +24,7 @@ export const TAB_NAME = {
   },
   USER: {
     ORDINARY: 'user_info', // 普通用户
+    ADDR: 'user_addr', // 普通用户地址
     SYS: 'sys_user', // 系统用户
   },
 } as const;

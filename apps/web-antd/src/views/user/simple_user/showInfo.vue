@@ -4,6 +4,8 @@ import { Descriptions, Avatar, Tag } from 'ant-design-vue';
 import { ref } from 'vue';
 import type { ITableData } from './data';
 import { formatDateTime } from '@vben/utils';
+import { listAdmin } from '#/api';
+import { TAB_NAME } from '#/utils/constant';
 
 const curUserInfo = ref<ITableData | undefined>();
 
@@ -21,8 +23,24 @@ const [Modal, modalApi] = useVbenModal({
     }
 
     curUserInfo.value = modalApi.getData() as ITableData;
+
+    getUserAddress(curUserInfo.value.user_id);
   },
 });
+
+const userAddress = ref<string[]>([]);
+
+/** 获取指定用户的地址信息 */
+function getUserAddress(user_id: string) {
+  listAdmin(TAB_NAME.USER.ADDR, {
+    user_id,
+  }).then((res: any[]) => {
+    userAddress.value = (res ?? []).map(
+      ({ area_info: { address, title } }) =>
+        address + (title ? `-${title}` : ''),
+    );
+  });
+}
 </script>
 
 <template>
@@ -47,6 +65,33 @@ const [Modal, modalApi] = useVbenModal({
       <Descriptions.Item label="创建时间">{{
         formatDateTime(curUserInfo!.created_at)
       }}</Descriptions.Item>
+      <Descriptions.Item label="地址">
+        <!-- 逐行展示, 溢出折行吧. 隐藏还要额外处理 -->
+        <div class="show-addr">
+          <p v-for="(addr, addrI) of userAddress" :key="addrI" class="addr-row">
+            {{ addr }}
+          </p>
+        </div>
+      </Descriptions.Item>
     </Descriptions>
   </Modal>
 </template>
+
+<style lang="scss" scoped>
+.show-addr {
+  counter-reset: addrI;
+
+  .addr-row {
+    border-bottom-width: 1px;
+
+    &::before {
+      content: counter(addrI) '.';
+      counter-increment: addrI;
+    }
+
+    & + & {
+      margin-top: 0.5rem;
+    }
+  }
+}
+</style>
