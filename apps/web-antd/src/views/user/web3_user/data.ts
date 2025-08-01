@@ -26,12 +26,6 @@ export function useGridFormSchema(): VbenFormSchema[] {
       label: '用户名',
     },
     {
-      component: 'RangePicker',
-      componentProps: DRangePickerProps,
-      fieldName: 'created_at',
-      label: $t('system.role.createTime'),
-    },
-    {
       component: 'Input',
       fieldName: 'user_id',
       label: '用户ID',
@@ -41,16 +35,18 @@ export function useGridFormSchema(): VbenFormSchema[] {
       fieldName: 'by_uid',
       label: '邀请人ID',
     },
+    {
+      component: 'RangePicker',
+      componentProps: DRangePickerProps,
+      fieldName: 'created_at',
+      label: $t('system.role.createTime'),
+    },
   ];
 }
 
 /** 列表展示 */
 export function useColumns(): VxeTableGridOptions['columns'] {
   return [
-    {
-      field: 'nickname',
-      title: '用户名',
-    },
     {
       title: '平台',
       slots: {
@@ -59,7 +55,20 @@ export function useColumns(): VxeTableGridOptions['columns'] {
       },
     },
     {
-      title: '邀请人',
+      title: '平台UID',
+      field: 'bot_uid',
+    },
+    {
+      field: 'nickname',
+      title: '用户名',
+    },
+    {
+      title: '用户ID',
+      field: 'user_id',
+    },
+
+    {
+      title: '邀请人ID',
       field: 'by_uid',
     },
     {
