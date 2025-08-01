@@ -13,7 +13,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         meta: {
-          title: '微信',
+          title: '微信用户',
         },
         name: 'UserSimpleUser',
         path: '/user/simple_user',
@@ -21,7 +21,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         meta: {
-          title: 'Web3',
+          title: 'Web3用户',
         },
         name: 'UserWeb3User',
         path: '/user/web3_user',
