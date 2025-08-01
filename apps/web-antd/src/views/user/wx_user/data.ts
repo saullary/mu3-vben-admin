@@ -37,7 +37,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       fieldName: 'nickname',
       label: '用户名',
     },
-    { component: 'Input', fieldName: 'id', label: 'ID' },
+    { component: 'Input', fieldName: 'user_id', label: 'ID' },
     {
       component: 'Input',
       fieldName: 'email',
@@ -60,17 +60,24 @@ export function useColumns<T = any>(
     {
       field: 'nickname',
       title: '用户名',
+    },
+    {
+      title: 'ID',
       slots: {
-        default: ({ row }) => `(${row.id}) ${row.nickname}`,
+        default: ({ row }) => `(${row.id}) ${row.user_id}`,
       },
     },
     {
       field: 'phone',
-      title: '联系方式',
+      title: '手机号',
     },
+    // {
+    //   field: 'email',
+    //   title: '邮箱',
+    // },
     {
-      field: 'email',
-      title: '邮箱',
+      title: '邀请人ID',
+      field: 'by_uid',
     },
     {
       field: 'created_at',
