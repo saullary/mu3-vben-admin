@@ -138,7 +138,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
       },
     },
     cellConfig: {
-      height: 80,
+      padding: true,
     },
   } as VxeTableGridOptions<any>,
 });

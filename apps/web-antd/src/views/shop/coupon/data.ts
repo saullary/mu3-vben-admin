@@ -3,7 +3,7 @@ import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { DRangePickerProps } from '#/utils/date';
 import { queryAdmin } from '#/api';
 import { TAB_NAME } from '#/utils/constant';
-import { reactive, ref } from 'vue';
+import { h, reactive, ref } from 'vue';
 import { codeAndName } from '#/utils/table';
 
 export const typeCode = {
@@ -193,7 +193,8 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'InputNumber',
       componentProps: {
         precision: 0,
-        placeholder: '不填则长期有效',
+        min: 1,
+        placeholder: '不填，长期有效',
       },
     },
 
@@ -270,9 +271,32 @@ export function useGridColumns<T = any>(
       field: 'name',
       title: '名称',
     },
+    // {
+    //   title: '优惠金额',
+    //   slots: {
+    //     default: ({ row: { cut_price } }) => h('p', [cut_price, '元']),
+    //   },
+    // },
     {
-      field: 'note',
       title: '备注',
+      showOverflow: false,
+      align: 'left',
+      slots: {
+        default: ({ row }) =>
+          h('div', [
+            h('p', row.note),
+            h('p', `优惠金额: ${row.cut_price}元`),
+            h(
+              'p',
+              `有效期: ${row.valid_day ? `${row.valid_day}天` : '无限制'}`,
+            ),
+          ]),
+      },
+      cellRender: {
+        props: {
+          showOverflowTooltip: false,
+        },
+      },
     },
     {
       title: '发放情况',
