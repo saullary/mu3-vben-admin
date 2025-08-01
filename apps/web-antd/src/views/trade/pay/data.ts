@@ -12,6 +12,19 @@ const payStatusSel = [
   { label: '已取消', value: 2 },
 ];
 
+/** 支付平台 */
+const platform = [
+  { label: '微信', value: 0 },
+  { label: 'DeJoy', value: 1 },
+  { label: 'Telegram', value: 2 },
+];
+
+/** 货币单位  */
+// const currency = [
+//   { label: 'RMB', value: 'RMB' },
+//   { label: 'USDT', value: 'USDT' },
+// ];
+
 const shopInfoList = ref<IdAndName[]>([]);
 
 /** 列表的搜索表单 */
@@ -53,6 +66,25 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
+      label: '支付平台',
+      fieldName: 'bot_type',
+      component: 'Select',
+      componentProps: {
+        allowClear: true,
+        options: platform,
+      },
+    },
+    // 目前, 微信-RMB 其余USDT
+    // {
+    //   label: '货币单位',
+    //   fieldName: 'currency',
+    //   component: 'Select',
+    //   componentProps: {
+    //     allowClear: true,
+    //     options: currency,
+    //   },
+    // },
+    {
       fieldName: 'created_at',
       label: '创建时间',
       component: 'RangePicker',
@@ -82,8 +114,20 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       title: '用户ID',
     },
     {
-      field: 'pay_amt',
+      title: '支付平台',
+      slots: {
+        default: ({ row: { bot_type } }) =>
+          platform.find((item) => item.value === bot_type)!.label,
+      },
+    },
+    {
+      field: 'amount',
       title: '支付金额',
+      slots: {
+        // 货币类型
+        default: ({ row: { amount, currency } }) =>
+          amount ? `${currency}:${amount}` : '',
+      },
     },
     {
       field: 'status',
