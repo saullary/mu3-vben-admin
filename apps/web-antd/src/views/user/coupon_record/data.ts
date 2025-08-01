@@ -75,7 +75,7 @@ export function useColumns(): VxeTableGridOptions['columns'] {
         name: 'CellTag',
         options: [
           { color: 'success', label: '未使用', value: 0 },
-          { color: 'warning', label: '已使用', value: 1 },
+          { color: 'default', label: '已使用', value: 1 },
         ],
       },
     },
