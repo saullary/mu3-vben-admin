@@ -33,7 +33,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       },
     },
     {
-      label: '用户名',
+      label: '名称',
       fieldName: 'name',
       component: 'Input',
     },
@@ -60,7 +60,7 @@ export function useColumns(): VxeTableGridOptions['columns'] {
   return [
     {
       field: 'name',
-      title: '用户名',
+      title: '名称',
     },
     {
       title: '门店',
@@ -74,8 +74,8 @@ export function useColumns(): VxeTableGridOptions['columns'] {
       cellRender: {
         name: 'CellTag',
         options: [
-          { color: 'success', label: '未使用', value: 0 },
-          { color: 'default', label: '已使用', value: 1 },
+          { color: 'default', label: '未使用', value: 0 },
+          { color: 'success', label: '已使用', value: 1 },
         ],
       },
     },
