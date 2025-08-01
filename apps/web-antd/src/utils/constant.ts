@@ -27,5 +27,6 @@ export const TAB_NAME = {
     ORDINARY: 'user_info', // 普通用户
     ADDR: 'user_addr', // 普通用户地址
     WEB3: 'user_bot', // web3用户
+    COUPON: 'user_coupon', // 用户领取的代金券
   },
 } as const;
