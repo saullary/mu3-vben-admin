@@ -51,7 +51,7 @@ setupVbenVxeTable({
           sort: true,
         },
         round: true,
-        showOverflow: true,
+        showOverflow: false,
         size: 'small',
 
         rowConfig: {

@@ -279,7 +279,6 @@ export function useGridColumns<T = any>(
     // },
     {
       title: '备注',
-      showOverflow: false,
       align: 'left',
       slots: {
         default: ({ row }) =>
@@ -291,11 +290,6 @@ export function useGridColumns<T = any>(
               `有效期: ${row.valid_day ? `${row.valid_day}天` : '无限制'}`,
             ),
           ]),
-      },
-      cellRender: {
-        props: {
-          showOverflowTooltip: false,
-        },
       },
     },
     {
