@@ -6,7 +6,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lsicon:order-outline',
       keepAlive: true,
       order: 1000,
-      title: '订单物流',
+      title: '订单管理',
     },
     name: 'Trade',
     path: '/trade',
