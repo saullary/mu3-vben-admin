@@ -12,11 +12,7 @@ declare global {
   }
 }
 
-let adminBaseUrl = 'https://tg2.quzz.fun/v1';
-if (isDev) {
-  adminBaseUrl = 'http://localhost:6011/v1';
-}
-adminBaseUrl += '/admin/auth';
+let adminBaseUrl = '/admin/auth';
 
 export function queryAdmin(
   table: String,

@@ -133,7 +133,7 @@ async function handlePreview(curFile: UploadFile) {
       v-model:file-list="localFileList"
       list-type="picture-card"
       :accept="props.accept"
-      action="https://mu3.hqs.link/v1/fun/auth/upload"
+      action="https://tg2.quzz.fun/v1/fun/auth/upload"
       :headers="uploadHead"
       :max-count="props.maxCount"
       :multiple="props.maxCount > 1"
