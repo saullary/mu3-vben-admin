@@ -4,6 +4,9 @@ import { onMounted, ref, watch } from 'vue';
 import { Upload, message, Modal } from 'ant-design-vue';
 import { IconifyIcon } from '@vben/icons';
 import supabase from '#/api/core/supabase';
+const { VITE_GLOB_API_URL } = import.meta.env;
+
+const action = ref(VITE_GLOB_API_URL + '/fun/auth/upload');
 
 defineOptions({ name: 'UploadImg', inheritAttrs: false });
 
@@ -133,7 +136,7 @@ async function handlePreview(curFile: UploadFile) {
       v-model:file-list="localFileList"
       list-type="picture-card"
       :accept="props.accept"
-      action="https://tg2.quzz.fun/v1/fun/auth/upload"
+      :action="action"
       :headers="uploadHead"
       :max-count="props.maxCount"
       :multiple="props.maxCount > 1"
