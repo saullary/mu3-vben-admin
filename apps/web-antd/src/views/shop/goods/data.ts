@@ -4,7 +4,7 @@ import { z } from '#/adapter/form';
 import { DRangePickerProps } from '#/utils/date';
 import { queryAdmin } from '#/api';
 import { TAB_NAME } from '#/utils/constant';
-import { ref } from 'vue';
+import { h, ref } from 'vue';
 import { codeAndName } from '#/utils/table';
 
 const goodsStatusSel = [
@@ -70,6 +70,16 @@ export function useFormSchema(): VbenFormSchema[] {
       rules: 'required',
     },
     {
+      component: 'InputNumber',
+      label: '原价',
+      fieldName: 'price_old',
+      componentProps: {
+        min: 0,
+        prefix: '￥',
+        precision: 2,
+      },
+    },
+    {
       component: 'Textarea',
       fieldName: 'bio',
       label: '简介',
@@ -83,13 +93,31 @@ export function useFormSchema(): VbenFormSchema[] {
       },
     },
     {
+      component: 'Input',
+      fieldName: 'sold_num',
+      label: '已售数量',
+      dependencies: {
+        triggerFields: ['id'],
+        show: (vals) => vals.id !== void 0,
+        disabled: true,
+      },
+      defaultValue: 0,
+    },
+    {
       component: 'InputNumber',
-      label: '原价',
-      fieldName: 'price_old',
+      label: '库存量',
+      fieldName: 'stock_num',
       componentProps: {
-        min: 0,
-        prefix: '￥',
-        precision: 2,
+        min: 1,
+        precision: 0,
+      },
+      dependencies: {
+        rules: (vals) => {
+          return z
+            .number({ message: '请输入库存量' })
+            .min(vals.sold_num, '库存量不能小于已售数量');
+        },
+        triggerFields: ['sold_num'],
       },
     },
     {
@@ -214,6 +242,9 @@ export function useGridFormSchema(): VbenFormSchema[] {
   ];
 }
 
+/** 需要提示的剩余库存阈值 */
+const HINT_NUM = 10;
+
 /** 列表的字段 */
 export function useGridColumns<T = any>(
   onActionClick: OnActionClickFn<T>,
@@ -257,6 +288,23 @@ export function useGridColumns<T = any>(
       field: 'price',
       title: '售价/原价',
       slots: { default: 'price' },
+    },
+    {
+      title: '已售/库存',
+      slots: {
+        default: ({ row: { sold_num = 0, stock_num } }) =>
+          h('p', [
+            h('span', sold_num ?? 0),
+            h('span', { class: 'mx-2' }, '/'),
+            h(
+              'span',
+              {
+                class: stock_num - sold_num < HINT_NUM && 'text-red-500',
+              },
+              stock_num,
+            ),
+          ]),
+      },
     },
     {
       field: 'bio',
