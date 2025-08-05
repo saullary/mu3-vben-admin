@@ -35,9 +35,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-// 简单打印使用
-console.log(routes[0]?.meta?.order);
-
-// export default routes;
-
-export default [];
+export default routes;
