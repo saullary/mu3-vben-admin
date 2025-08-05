@@ -69,16 +69,27 @@ export function useColumns(): VxeTableGridOptions['columns'] {
       },
     },
     {
-      title: '使用状态',
-      field: 'status',
-      cellRender: {
-        name: 'CellTag',
-        options: [
-          { color: 'default', label: '未使用', value: 0 },
-          { color: 'success', label: '已使用', value: 1 },
-        ],
+      title: '已用 / 可用',
+      slots: {
+        default: ({ row: { total_num, used_num } }) =>
+          h('p', [
+            h('span', used_num ?? 0),
+            h('span', { class: 'mx-2' }, '/'),
+            h('span', total_num ?? 0),
+          ]),
       },
     },
+    // {
+    //   title: '使用状态',
+    //   field: 'status',
+    //   cellRender: {
+    //     name: 'CellTag',
+    //     options: [
+    //       { color: 'default', label: '未使用', value: 0 },
+    //       { color: 'success', label: '已使用', value: 1 },
+    //     ],
+    //   },
+    // },
     {
       title: '有效期',
       slots: {
