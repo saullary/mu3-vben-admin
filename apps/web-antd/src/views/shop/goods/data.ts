@@ -337,6 +337,19 @@ export function useGridColumns<T = any>(
           nameTitle: '商品',
           onClick: onActionClick,
         },
+        options: [
+          { text: '编辑', code: 'edit' },
+          {
+            text: '删除',
+            code: 'delete',
+            show: (row: any) => {
+              if (row.sold_num) {
+                return false;
+              }
+              return true;
+            },
+          },
+        ],
       },
     },
   ];
