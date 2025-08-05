@@ -53,7 +53,7 @@ const shopList = ref([]);
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
-      component: 'ApiTreeSelect',
+      component: 'ApiSelect',
       componentProps: {
         api: queryAdmin(
           TAB_NAME.SHOP.INFO,

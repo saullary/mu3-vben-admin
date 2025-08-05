@@ -218,7 +218,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       label: '所属门店',
-      fieldName: 'shop_name',
+      fieldName: 'shop_id',
       component: 'ApiSelect',
       componentProps: {
         api: queryAdmin(
