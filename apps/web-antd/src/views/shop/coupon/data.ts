@@ -217,7 +217,7 @@ const shopList = reactive<IdAndName[]>([]);
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
-      label: '所属门店',
+      label: '门店',
       fieldName: 'shop_id',
       component: 'ApiSelect',
       componentProps: {
