@@ -61,7 +61,6 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'Input',
       fieldName: 'name',
       label: '名称',
-      rules: 'required',
       disabled: false,
     },
     {
@@ -162,12 +161,9 @@ export function useFormSchema(): VbenFormSchema[] {
       component: 'InputNumber',
       componentProps: {
         precision: 2,
+        min: 1,
       },
-      rules: z
-        .number({
-          message: '请输入优惠金额',
-        })
-        .min(0),
+      rules: 'required',
     },
 
     {
@@ -281,15 +277,39 @@ export function useGridColumns<T = any>(
       title: '备注',
       align: 'left',
       slots: {
-        default: ({ row }) =>
-          h('div', [
-            h('p', row.note),
-            h('p', `优惠金额: ${row.cut_price}元`),
+        default: ({ row }) => {
+          const cellRes = [h('p', row.note)];
+
+          if (!row.note?.startsWith('满')) {
+            cellRes.push(
+              h(
+                'p',
+                {
+                  style: {
+                    opacity: '0.5',
+                    'font-size': '0.9em',
+                  },
+                },
+                `优惠金额: ${row.cut_price}元`,
+              ),
+            );
+          }
+
+          cellRes.push(
             h(
               'p',
+              {
+                style: {
+                  opacity: '0.5',
+                  'font-size': '0.9em',
+                },
+              },
               `有效期: ${row.valid_day ? `${row.valid_day}天` : '无限制'}`,
             ),
-          ]),
+          );
+
+          return h('div', cellRes);
+        },
       },
     },
     {

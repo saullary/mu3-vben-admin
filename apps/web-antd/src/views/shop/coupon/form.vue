@@ -49,7 +49,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     // 满减
     if (data.type === typeCode.Money) {
-      note = `满减:${data.base_price}元`;
+      note = `满${data.base_price}元，减${data.cut_price}元`;
     }
     // 指定商品
     else if (data.type === typeCode.Goods) {
@@ -57,7 +57,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
         .getFieldComponentRef<TApiComponent>('goods_id')!
         .getOptions();
       const goods = guide.find((row) => row.value === data.goods_id)?.label;
-      note = `商品:${goods}`;
+      note = `指定商品优惠：${goods}`;
     }
     // 指定分类
     else if (data.type === typeCode.Classify) {
@@ -67,7 +67,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
       const classify = guide.find(
         (row) => row.value === data.goods_type,
       )?.label;
-      note = `分类:${classify}`;
+      note = `指定分类优惠：${classify}`;
     }
 
     // 代金券默认状态
