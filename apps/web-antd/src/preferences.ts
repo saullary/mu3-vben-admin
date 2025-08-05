@@ -12,6 +12,7 @@ export const overridesPreferences = defineOverridesPreferences({
     authPageLayout: 'panel-center',
     enableCheckUpdates: true,
     layout: 'sidebar-mixed-nav',
+    defaultHomePath: '/trade/order',
   },
   sidebar: {
     collapsed: true,
