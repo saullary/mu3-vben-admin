@@ -1,7 +1,7 @@
 import { z, type VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions, OnActionClickFn } from '#/adapter/vxe-table';
 import { DRangePickerProps } from '#/utils/date';
-import { queryAdmin } from '#/api';
+import { listAdmin, queryAdmin } from '#/api';
 import { TAB_NAME } from '#/utils/constant';
 import { h, reactive, ref } from 'vue';
 import { codeAndName } from '#/utils/table';
@@ -105,12 +105,23 @@ export function useFormSchema(): VbenFormSchema[] {
     {
       label: '指定商品',
       fieldName: 'goods_id',
-      component: 'ApiTreeSelect',
+      component: 'ApiSelect',
       componentProps: {
         params: formParams,
-        api: queryAdmin(TAB_NAME.SHOP.GOODS, {
-          _select: 'id,name',
-        }),
+        api: async () => {
+          const gudie = await listAdmin(TAB_NAME.SHOP.GOODS, {
+            _select: 'id,name,price',
+          });
+
+          const res = (gudie ?? []).map(
+            (row: { id: number; name: string; price: number }) => ({
+              id: row.id,
+              name: row.name + `（￥${row.price}）`,
+            }),
+          );
+
+          return res;
+        },
       },
       dependencies: {
         if(vals, formApi) {
