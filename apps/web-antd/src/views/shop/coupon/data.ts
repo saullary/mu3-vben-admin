@@ -213,6 +213,14 @@ const shopList = reactive<IdAndName[]>([]);
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
+      label: 'ID',
+      fieldName: 'id',
+      component: 'Input',
+      componentProps: {
+        placeholder: '请输入ID',
+      },
+    },
+    {
       label: '门店',
       fieldName: 'shop_id',
       component: 'ApiSelect',
@@ -257,6 +265,12 @@ export function useGridColumns<T = any>(
   onStatusChange?: (newStatus: any, row: T) => PromiseLike<boolean | undefined>,
 ): VxeTableGridOptions['columns'] {
   return [
+    {
+      title: 'ID',
+      field: 'id',
+      width: 100,
+      fixed: 'left',
+    },
     {
       title: '所属门店',
       slots: {
