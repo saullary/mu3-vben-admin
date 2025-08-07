@@ -94,10 +94,12 @@ export function useColumns(): VxeTableGridOptions['columns'] {
       title: '有效期',
       slots: {
         default: ({ row: { valid_begin, valid_end } }) =>
-          h('div', [
-            h('p', useDateFormat(valid_begin, 'YYYY-MM-DD HH:mm:ss').value),
-            h('p', useDateFormat(valid_end, 'YYYY-MM-DD HH:mm:ss').value),
-          ]),
+          valid_begin
+            ? h('div', [
+                h('p', useDateFormat(valid_begin, 'YYYY-MM-DD HH:mm:ss').value),
+                h('p', useDateFormat(valid_end, 'YYYY-MM-DD HH:mm:ss').value),
+              ])
+            : '长期有效',
       },
       rowResize: true,
     },
