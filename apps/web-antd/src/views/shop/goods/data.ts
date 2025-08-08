@@ -142,6 +142,16 @@ export function useFormSchema(): VbenFormSchema[] {
       },
       rules: z.number().default(1),
     },
+    {
+      component: 'InputNumber',
+      fieldName: 'seq',
+      label: '排序',
+      rules: z.number({ message: '请输入排序值' }).default(1000),
+      componentProps: {
+        precision: 0,
+      },
+      help: '数值越大排序越靠前',
+    },
   ];
 }
 
@@ -320,6 +330,11 @@ export function useGridColumns<T = any>(
           { label: '下架', value: 0, color: 'red' },
         ],
       },
+    },
+    {
+      title: '排序',
+      sortable: true,
+      field: 'seq',
     },
     {
       field: 'created_at',
