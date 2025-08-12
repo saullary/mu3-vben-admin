@@ -7,11 +7,23 @@ import { codeAndName } from '#/utils/table';
 import { ref } from 'vue';
 
 // 订单状态
-const orderStatusList = [
-  { label: '未结算', value: 0, color: 'info' },
-  { label: '结算中', value: 1, color: 'warning' },
-  { label: '已结算', value: 2, color: 'success' },
-];
+const orderCodeToStr = {
+  0: '待支付',
+  1: '备货中',
+  2: '待发货',
+  3: '已发货',
+  4: '待签收',
+  6: '已签收',
+  7: '转售中',
+  8: '已转售',
+  11: '退款中',
+  12: '已退款',
+} as Record<number, string>;
+
+const orderStatusSel = Object.entries(orderCodeToStr).map(([key, value]) => ({
+  label: value,
+  value: key,
+}));
 
 const shopInfoList = ref<IdAndName[]>([]);
 
@@ -50,7 +62,7 @@ export function useGridFormSchema(): VbenFormSchema[] {
       component: 'Select',
       componentProps: {
         allowClear: true,
-        options: orderStatusList,
+        options: orderStatusSel,
       },
     },
     {
@@ -87,11 +99,9 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       title: '订单金额',
     },
     {
-      field: 'status',
       title: '订单状态',
-      cellRender: {
-        name: 'CellTag',
-        options: orderStatusList,
+      slots: {
+        default: ({ row }) => orderCodeToStr[row.status] ?? '',
       },
     },
     {
