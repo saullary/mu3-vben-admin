@@ -40,8 +40,13 @@ export function useGridFormSchema(): VbenFormSchema[] {
     { component: 'Input', fieldName: 'user_id', label: 'ID' },
     {
       component: 'Input',
-      fieldName: 'email',
-      label: '邮箱',
+      fieldName: 'by_uid',
+      label: '邀请人ID',
+    },
+    {
+      component: 'Input',
+      fieldName: 'phone',
+      label: '手机号',
     },
     {
       component: 'RangePicker',
