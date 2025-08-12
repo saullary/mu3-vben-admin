@@ -49,7 +49,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     // 满减
     if (data.type === typeCode.Money) {
-      note = `金额门槛：${data.base_price}元`;
+      note = `门槛金额：${data.base_price}元`;
     }
     // 指定商品
     else if (data.type === typeCode.Goods) {
