@@ -125,8 +125,7 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       title: '支付金额',
       slots: {
         // 货币类型
-        default: ({ row: { amount, currency } }) =>
-          amount ? `${currency}:${amount}` : '',
+        default: ({ row }) => `${row.amount} ${row.currency}`,
       },
     },
     {
