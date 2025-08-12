@@ -95,8 +95,8 @@ export function useGridColumns(): VxeTableGridOptions['columns'] {
       title: '用户ID',
     },
     {
-      field: 'total_price',
-      title: '订单金额',
+      field: 'final_price',
+      title: '金额(元)',
     },
     {
       title: '订单状态',

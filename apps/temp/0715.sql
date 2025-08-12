@@ -67,7 +67,7 @@ CREATE TABLE public.shop_order (
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   order_no text,
   buy_info jsonb,
-  total_price real,
+  final_price real,
   pay_info jsonb,
   user_id uuid DEFAULT gen_random_uuid(),
   status smallint,
