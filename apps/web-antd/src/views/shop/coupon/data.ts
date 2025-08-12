@@ -116,7 +116,7 @@ export function useFormSchema(): VbenFormSchema[] {
           const res = (gudie ?? []).map(
             (row: { id: number; name: string; price: number }) => ({
               id: row.id,
-              name: row.name + `（￥${row.price}）`,
+              name: row.name, //+ `（￥${row.price}）`,
             }),
           );
 
@@ -305,20 +305,18 @@ export function useGridColumns<T = any>(
         default: ({ row }) => {
           const cellRes = [h('p', row.note)];
 
-          if (!row.note?.startsWith('满')) {
-            cellRes.push(
-              h(
-                'p',
-                {
-                  style: {
-                    opacity: '0.5',
-                    'font-size': '0.9em',
-                  },
+          cellRes.push(
+            h(
+              'p',
+              {
+                style: {
+                  opacity: '0.5',
+                  'font-size': '0.9em',
                 },
-                `优惠金额: ${row.cut_price}元`,
-              ),
-            );
-          }
+              },
+              `优惠金额: ${row.cut_price}元`,
+            ),
+          );
 
           cellRes.push(
             h(
