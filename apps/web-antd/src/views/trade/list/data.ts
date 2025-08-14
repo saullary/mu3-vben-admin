@@ -18,6 +18,8 @@ const orderCodeToStr = {
   8: '已转售',
   11: '退款中',
   12: '已退款',
+  21: '已取消',
+  31: '已认养',
 } as Record<number, string>;
 
 const orderStatusSel = Object.entries(orderCodeToStr).map(([key, value]) => ({
